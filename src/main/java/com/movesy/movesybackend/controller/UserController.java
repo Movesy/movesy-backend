@@ -48,11 +48,11 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResponseEntity<User> login(@RequestParam String username, @RequestParam String password) {
         User user = userRepository.findUserByUsername(username);
         try {
-            if (user.getPassword().equals(password)) //TODO hash this badboy
+            if (user.getPassword().equals(password)) //TODO hash this bad boy
                 return new ResponseEntity<>(user, HttpStatus.OK);
             else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
