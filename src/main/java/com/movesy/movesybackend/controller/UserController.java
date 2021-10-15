@@ -43,13 +43,12 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = new User("123", Role.ADMIN, "Tomi", "jelszo", "email@email.com", "+36201234567", Size.HUGE);
         try {
-            userRepository.save(newUser);
-            return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+            userRepository.save(user);
+            return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("INTERNAL_SERVER_ERROR!");
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
