@@ -39,7 +39,7 @@ public class ReviewController {
     @GetMapping("/")
     public ResponseEntity<?> getReviewByPackageId(@RequestParam String id){
         try{
-            Optional<Review> review = reviewRepository.findReviewByPackageId(id);
+            Optional<Review> review = reviewRepository.findReviewsByPackageID(id);
             if (review.isEmpty()) {
                 return new ResponseEntity<Review>(HttpStatus.NO_CONTENT);
             }
@@ -50,12 +50,12 @@ public class ReviewController {
     }
     @GetMapping("edit/")
     public ResponseEntity<?> editReviewByPackageId(@RequestParam String id,@RequestBody Review review){
-        Optional<Review> reviewData = reviewRepository.findReviewByPackageId(id);
+        Optional<Review> reviewData = reviewRepository.findReviewsByPackageID(id);
         if (reviewData.isPresent()) {
             Review _review = reviewData.get();
             _review.setDescription(review.getDescription());
             _review.setRating(review.getRating());
-            return new ResponseEntity<Review>(reviewRepository.save(_review),HttpStatus.OK);
+            return new ResponseEntity<>(reviewRepository.save(_review),HttpStatus.OK);
         } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
