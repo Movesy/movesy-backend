@@ -1,13 +1,7 @@
 package com.movesy.movesybackend.controller;
-
-import com.mongodb.BasicDBObject;
-import com.movesy.movesybackend.model.Role;
-import com.movesy.movesybackend.model.Size;
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.UserRepository;
-import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +13,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -47,7 +42,7 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
             userRepository.save(user);
-            return new ResponseEntity<User>(user, HttpStatus.OK);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("INTERNAL_SERVER_ERROR!");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

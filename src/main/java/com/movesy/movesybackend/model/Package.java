@@ -17,6 +17,7 @@ import java.util.Date;
 public class Package {
     @Id
     private String id;
+    private String userID;
     private Location from;
     private Location to;
     private Date deadline;
