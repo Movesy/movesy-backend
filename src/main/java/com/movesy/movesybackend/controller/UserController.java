@@ -31,8 +31,8 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") String id) {
+    @GetMapping("/")
+    public ResponseEntity<User> getUserById(@RequestParam String id) {
         Optional<User> userData = userRepository.findById(id);
         if (userData.isPresent()) {
             return new ResponseEntity<User>(userData.get(), HttpStatus.OK);
@@ -52,8 +52,8 @@ public class UserController {
         }
     }
 
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") String id,@RequestBody User user){
+    @PutMapping("/edit/")
+    public ResponseEntity<User> updateUser(@RequestParam String id,@RequestBody User user){
         Optional<User> userData = userRepository.findById(id);
         if (userData.isPresent()) {
             User _user = userData.get();
@@ -68,8 +68,8 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") String id) {
+    @DeleteMapping("/delete/")
+    public ResponseEntity<HttpStatus> deleteUser(@RequestParam String id) {
         try {
             userRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -14,10 +15,13 @@ import java.util.Date;
 @NoArgsConstructor
 @Document(collection = "reviews")
 public class Review {
-    String id;
-    String transporterID;
-    String customerUsername;
-    Date time;
-    int rating;
-    String description;
+    @Id
+    private String id;
+
+    private String transporterID;
+    private String packageID;
+    private String customerUsername;
+    private Date time;
+    private int rating;
+    private String description;
 }

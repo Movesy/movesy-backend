@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class User {
     @Id
     private String id;
+
     private Role role;
     private String username;
     private String password;
