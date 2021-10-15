@@ -19,9 +19,8 @@ public class PackageController {
     PackageRepository packageRepository;
 
     @PostMapping("/create")
-    public ResponseEntity<Package> createPackage(@RequestBody Package _package, @RequestParam String userID) {
+    public ResponseEntity<Package> createPackage(@RequestBody Package _package) {
         try {
-            _package.setUserID(userID);
             packageRepository.save(_package);
             return new ResponseEntity<>(_package, HttpStatus.OK);
         } catch (Exception e) {

@@ -34,11 +34,7 @@ public class UserController {
     @GetMapping("/")
     public ResponseEntity<User> getUserById(@RequestParam String id) {
         Optional<User> userData = userRepository.findById(id);
-        if (userData.isPresent()) {
-            return new ResponseEntity<User>(userData.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return userData.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/register")
@@ -52,8 +48,19 @@ public class UserController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody User user) {
+        try {
+            userRepository.save(user);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("INTERNAL_SERVER_ERROR!");
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping("/edit/")
-    public ResponseEntity<User> updateUser(@RequestParam String id,@RequestBody User user){
+    public ResponseEntity<User> updateUser(@RequestParam String id, @RequestBody User user){
         Optional<User> userData = userRepository.findById(id);
         if (userData.isPresent()) {
             User _user = userData.get();

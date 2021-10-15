@@ -25,10 +25,8 @@ public class OfferController {
     UserRepository userRepository;
 
     @PostMapping("/create/")
-    public ResponseEntity<Offer> createOffer(@RequestBody Offer offer, @RequestParam String transporterID, @RequestParam String packageID) {
+    public ResponseEntity<Offer> createOffer(@RequestBody Offer offer) {
         try {
-            offer.setTransporterID(transporterID);
-            offer.setPackageID(packageID);
             offerRepository.save(offer);
             return new ResponseEntity<>(offer, HttpStatus.OK);
         } catch (Exception e) {
