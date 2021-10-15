@@ -1,27 +1,17 @@
 package com.movesy.movesybackend.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Document(collection = "offers")
 public class Offer {
-    String ID;
+    String id;
     int price;
-
-    public Offer(String ID, int price) {
-        this.ID = ID;
-        this.price = price;
-    }
-
-    public String getID() {
-        return ID;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
 }
