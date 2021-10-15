@@ -49,10 +49,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody User user) {
+    public ResponseEntity<User> login(@RequestParam String username, @RequestParam String password) {
+        User user = userRepository.findUserByUsername(username);
         try {
-            userRepository.save(user);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            if (user.getPassword().equals(password)) //TODO hash this badboy
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             System.out.println("INTERNAL_SERVER_ERROR!");
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
