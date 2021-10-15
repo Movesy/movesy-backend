@@ -1,5 +1,6 @@
 package com.movesy.movesybackend.controller;
 
+import com.movesy.movesybackend.model.Package;
 import com.movesy.movesybackend.model.Review;
 import com.movesy.movesybackend.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("edit/")
+    @PutMapping("edit/")
     public ResponseEntity<?> editReviewById(@RequestParam String id, @RequestBody Review review) {
         Optional<Review> reviewData = reviewRepository.findById(id);
         if (reviewData.isPresent()) {
@@ -58,4 +59,27 @@ public class ReviewController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @DeleteMapping("/delete/")
+    public ResponseEntity<HttpStatus> deleteReview(@RequestParam String id) {
+        try {
+            reviewRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/transporter/")
+    public ResponseEntity<List<Review>> getReviewsByTransporter(@RequestParam String id) {
+        try {
+            List<Review> reviews = reviewRepository.findReviewsByTransporterID(id);
+
+            if (reviews.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(reviews, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
