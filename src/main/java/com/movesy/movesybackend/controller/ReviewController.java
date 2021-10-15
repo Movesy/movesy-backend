@@ -47,7 +47,7 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("edit/")
+    @PutMapping("edit/")
     public ResponseEntity<?> editReviewById(@RequestParam String id, @RequestBody Review review) {
         Optional<Review> reviewData = reviewRepository.findById(id);
         if (reviewData.isPresent()) {
