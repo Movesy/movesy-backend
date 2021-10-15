@@ -14,7 +14,7 @@
     <name>movesy-backend</name>
     <description>movesy-backend</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -54,6 +54,7 @@
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>1.16.22</version>
                         </exclude>
                     </excludes>
                 </configuration>

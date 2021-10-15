@@ -86,4 +86,9 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello!";
+    }
 }
