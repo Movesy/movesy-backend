@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("list")
+    @GetMapping("/list")
     public ResponseEntity<?> getAllTutorials(@RequestParam(required = false) String title) {
         try {
             List<User> users = new ArrayList<>(userRepository.findAll());
@@ -28,7 +28,6 @@ public class UserController {
             if (users.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-
             return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("No users available", HttpStatus.NOT_FOUND);
