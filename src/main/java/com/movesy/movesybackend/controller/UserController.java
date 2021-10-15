@@ -1,10 +1,13 @@
 package com.movesy.movesybackend.controller;
 
+import com.mongodb.BasicDBObject;
 import com.movesy.movesybackend.model.Role;
 import com.movesy.movesybackend.model.Size;
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.UserRepository;
+import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +19,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/list")
-    public ResponseEntity<?> getAllTutorials(@RequestParam(required = false) String title) {
+    public ResponseEntity<?> getAllUsers() {
         try {
             List<User> users = new ArrayList<>(userRepository.findAll());
 
