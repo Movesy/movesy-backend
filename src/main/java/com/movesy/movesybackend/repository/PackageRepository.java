@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface PackageRepository extends MongoRepository<Package, String> {
     List<Package> findPackageByUserID(String userID);
+    List<Package> findPackageByTransporterID(String transporterID);
 }

@@ -18,6 +18,7 @@ public class Package {
     @Id
     private String id;
     private String userID;
+    private String transporterID;
     private Location from;
     private Location to;
     private Date deadline;

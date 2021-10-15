@@ -93,6 +93,18 @@ public class PackageController {
         }
     }
 
+    @GetMapping("/transporter/")
+    public ResponseEntity<List<Package>> getPackagesByTransporter(@RequestParam String id) {
+        try {
+            List<Package> packages = packageRepository.findPackageByTransporterID(id);
 
+            if (packages.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(packages, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
