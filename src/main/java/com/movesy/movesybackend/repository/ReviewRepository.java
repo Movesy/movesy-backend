@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface ReviewRepository extends MongoRepository<Review, String> {
-    Optional<Review> findReviewsByPackageID(String id);
+    List<Review> findReviewByPackageID(String id);
 }

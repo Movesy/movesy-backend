@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,21 +33,22 @@ public class ReviewController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<?> getReviewByPackageId(@RequestParam String id) {
+    public ResponseEntity<Review> getReviewByPackageId(@RequestParam String id) {
         try {
-            Optional<Review> review = reviewRepository.findReviewsByPackageID(id);
-            if (review.isEmpty()) {
-                return new ResponseEntity<Review>(HttpStatus.NO_CONTENT);
+            List<Review> reviews = reviewRepository.findReviewByPackageID(id);
+
+            if (reviews.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(review, HttpStatus.OK);
+            return new ResponseEntity<>(reviews.get(0), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("edit/")
-    public ResponseEntity<?> editReviewByPackageId(@RequestParam String id, @RequestBody Review review) {
-        Optional<Review> reviewData = reviewRepository.findReviewsByPackageID(id);
+    public ResponseEntity<?> editReviewById(@RequestParam String id, @RequestBody Review review) {
+        Optional<Review> reviewData = reviewRepository.findById(id);
         if (reviewData.isPresent()) {
             Review _review = reviewData.get();
             _review.setDescription(review.getDescription());
