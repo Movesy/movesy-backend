@@ -3,15 +3,15 @@ package com.movesy.movesybackend.model;
 import java.util.Date;
 
 public class Review {
-    String ID;
+    String id;
     String transporterID;
     String customerUsername;
     Date time;
     int rating;
     String description;
 
-    public Review(String ID, String transporterID, String customerUsername, Date time, int rating, String description) {
-        this.ID = ID;
+    public Review(String id, String transporterID, String customerUsername, Date time, int rating, String description) {
+        this.id = id;
         this.transporterID = transporterID;
         this.customerUsername = customerUsername;
         this.time = time;
@@ -19,8 +19,8 @@ public class Review {
         this.description = description;
     }
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return id;
     }
 
     public String getTransporterID() {
@@ -43,8 +43,8 @@ public class Review {
         return description;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setTransporterID(String transporterID) {
