@@ -1,6 +1,5 @@
 package com.movesy.movesybackend.controller;
 
-import com.movesy.movesybackend.model.Package;
 import com.movesy.movesybackend.model.Review;
 import com.movesy.movesybackend.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
