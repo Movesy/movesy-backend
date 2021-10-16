@@ -23,6 +23,6 @@ public class DiaryController {
                 .build();
 
 
-        return renderer.render(document);
+        return "<link rel=\"stylesheet\"  href=\"/css/style.css\">\n" + renderer.render(document);
     }
 }
