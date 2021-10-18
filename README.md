@@ -1,5 +1,5 @@
 # Backend haladási napló
-# 5. hét
+# 4. hét
 Mostantól itt dokumentáljuk a backenndel kapcsolatos haladást.
 Azt beszéltük meg, hogy adatbázisnak a MongoDB-t fogjuk használni, mivel a usereket szereptől függetlenül fogjuk egy adatbázisban tárolni, így megspórolunk csomó null értéket.
 Csütörtökön létrehoztuk a projektet, majd elkezdtünk azzal foglalkozni, hogy létrehozzuk az endpointokat és összekössük a MongoDB-vel az alkalmazást
