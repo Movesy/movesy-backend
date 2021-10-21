@@ -1,5 +1,6 @@
 package com.movesy.movesybackend.controller;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -7,8 +8,10 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.payload.request.LoginRequest;
 import com.movesy.movesybackend.payload.response.JwtResponse;
+import com.movesy.movesybackend.payload.response.MessageResponse;
 import com.movesy.movesybackend.repository.UserRepository;
 import com.movesy.movesybackend.security.jwt.JwtUtils;
 import com.movesy.movesybackend.security.services.UserDetailsImpl;
@@ -17,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,15 +55,16 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
+        /*List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+        Collection<? extends GrantedAuthority> role = userDetails.getAuthorities();
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                roles));
+                role));
     }
 
     @PostMapping("/signup")
