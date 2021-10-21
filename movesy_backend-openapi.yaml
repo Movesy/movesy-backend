@@ -1,0 +1,275 @@
+openapi: "3.0.3"
+info:
+  title: "movesy_backend API"
+  description: "movesy_backend API"
+  version: "1.0.0"
+servers:
+  - url: "https://movesy_backend"
+paths:
+  /diary:
+    get:
+      summary: "GET diary"
+      operationId: "diary"
+      responses:
+        "200":
+          description: "OK"
+  /offer/:
+    get:
+      summary: "GET offer/"
+      operationId: "getOffersByPackageID"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /offer/create/:
+    post:
+      summary: "POST offer/create/"
+      operationId: "createOffer"
+      responses:
+        "200":
+          description: "OK"
+  /offer/delete/:
+    delete:
+      summary: "DELETE offer/delete/"
+      operationId: "deleteOffer"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /offer/edit/:
+    put:
+      summary: "PUT offer/edit/"
+      operationId: "updatePackage"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+        - name: "userID"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /package/:
+    get:
+      summary: "GET package/"
+      operationId: "getPackageById"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /package/create:
+    post:
+      summary: "POST package/create"
+      operationId: "createPackage"
+      responses:
+        "200":
+          description: "OK"
+  /package/delete/:
+    delete:
+      summary: "DELETE package/delete/"
+      operationId: "deletePackage"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /package/edit/:
+    put:
+      summary: "PUT package/edit/"
+      operationId: "updatePackage"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /package/list:
+    get:
+      summary: "GET package/list"
+      operationId: "getAllPackages"
+      responses:
+        "200":
+          description: "OK"
+  /package/transporter/:
+    get:
+      summary: "GET package/transporter/"
+      operationId: "getPackagesByTransporter"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /package/user/:
+    get:
+      summary: "GET package/user/"
+      operationId: "getPackagesByUser"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /review/:
+    get:
+      summary: "GET review/"
+      operationId: "getReviewByPackageId"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /review/create:
+    post:
+      summary: "POST review/create"
+      operationId: "createReview"
+      responses:
+        "200":
+          description: "OK"
+  /review/delete/:
+    delete:
+      summary: "DELETE review/delete/"
+      operationId: "deleteReview"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /review/edit/:
+    put:
+      summary: "PUT review/edit/"
+      operationId: "editReviewById"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /review/transporter/:
+    get:
+      summary: "GET review/transporter/"
+      operationId: "getReviewsByTransporter"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /user/:
+    get:
+      summary: "GET user/"
+      operationId: "getUserById"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /user/delete/:
+    delete:
+      summary: "DELETE user/delete/"
+      operationId: "deleteUser"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /user/edit/:
+    put:
+      summary: "PUT user/edit/"
+      operationId: "updateUser"
+      parameters:
+        - name: "id"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /user/list:
+    get:
+      summary: "GET user/list"
+      operationId: "getAllUsers"
+      responses:
+        "200":
+          description: "OK"
+  /user/login:
+    get:
+      summary: "GET user/login"
+      operationId: "login"
+      parameters:
+        - name: "username"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+        - name: "password"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /user/register:
+    post:
+      summary: "POST user/register"
+      operationId: "createUser"
+      responses:
+        "200":
+          description: "OK"
