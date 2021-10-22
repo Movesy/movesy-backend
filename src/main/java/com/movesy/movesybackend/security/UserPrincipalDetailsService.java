@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-public class UserPrincipalDataService implements UserDetailsService {
+@Service
+public class UserPrincipalDetailsService implements UserDetailsService {
 
     private UserRepository userRepository;
 
-    public UserPrincipalDataService(UserRepository userRepository) {
+    public UserPrincipalDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
