@@ -28,9 +28,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/user/register").permitAll()
-                .antMatchers("/user/login").permitAll()
-                .antMatchers("/**").authenticated()
-                .antMatchers("/package").hasRole("TRANSPORTER")
                 .and()
                 .httpBasic();
     }
@@ -42,11 +39,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         daoAuthenticationProvider.setUserDetailsService(userPrincipalDetailsService);
 
         return daoAuthenticationProvider;
-
     }
 
     @Bean
-    PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

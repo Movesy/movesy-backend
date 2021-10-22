@@ -1,9 +1,13 @@
 package com.movesy.movesybackend.controller;
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.UserRepository;
+import com.movesy.movesybackend.security.SecurityConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,7 +44,11 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        System.out.println("asd");
+        SecurityConfiguration securityConfiguration = new SecurityConfiguration();
         try {
+            String encryptedPassword = securityConfiguration.passwordEncoder().encode(user.getPassword());
+            user.setPassword(encryptedPassword);
             userRepository.save(user);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
