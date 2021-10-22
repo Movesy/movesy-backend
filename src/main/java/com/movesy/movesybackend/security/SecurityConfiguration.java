@@ -29,10 +29,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/register").permitAll()
                 .antMatchers("/user/login").permitAll()
-                .antMatchers("/**").authenticated()
-                .antMatchers("/package").hasRole("TRANSPORTER")
-                .and()
-                .httpBasic();
+                .antMatchers("/*").hasRole("ADMIN")
+                .antMatchers("/user/edit").hasRole("USER")
+                .antMatchers("/package/all").hasRole("TRANSPORTER")
+                .antMatchers("/package/").hasRole("TRANSPORTER")
+                .antMatchers("/package/create").hasRole("USER")
+                .antMatchers("/package/edit/").hasRole("USER")
+                .antMatchers("/package/delete/").hasRole("USER")
+                .antMatchers("/package/user/").hasRole("USER")
+                .antMatchers("/review/").hasRole("USER")
+                .antMatchers("/review/create").hasRole("USER")
+                .antMatchers("/review/delete").hasRole("USER")
+                .antMatchers("/review/edit").hasRole("USER")
+                .antMatchers("/review/transporter/").hasRole("USER")
+                .antMatchers("/offer/").hasRole("USER")
+                .antMatchers("/offer/create/").hasRole("TRANSPORTER")
+                .antMatchers("/offer/edit/").hasRole("TRANSPORTER")
+                .antMatchers("/offer/delete/").hasRole("TRANSPORTER")
+                .anyRequest().authenticated();
     }
 
     @Bean
