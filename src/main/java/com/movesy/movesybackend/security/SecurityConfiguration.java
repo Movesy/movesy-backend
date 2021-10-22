@@ -16,19 +16,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode("admin123")).roles("ADMIN")
+                .withUser("admin")
+                .password(passwordEncoder().encode("admin123"))
+                .roles("ADMIN")
                 .and()
-                .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
+                .withUser("user")
+                .password(passwordEncoder().encode("password"))
+                .roles("USER")
                 .and()
-                .withUser("transporter").password(passwordEncoder().encode("transpass")).roles("TRANSPORTER");
+                .withUser("transporter")
+                .password(passwordEncoder().encode("transpass"))
+                .roles("TRANSPORTER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/user/register").permitAll()
+                .antMatchers("/user/login").permitAll()
                 .antMatchers("/**").authenticated()
-                .antMatchers("/").hasRole("TRANSPORTER")
+                .antMatchers("/package").hasRole("TRANSPORTER")
                 .and()
                 .httpBasic();
     }
