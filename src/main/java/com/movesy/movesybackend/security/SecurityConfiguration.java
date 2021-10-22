@@ -46,7 +46,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/offer/create/").hasRole("TRANSPORTER")
                 .antMatchers("/offer/edit/").hasRole("TRANSPORTER")
                 .antMatchers("/offer/delete/").hasRole("TRANSPORTER")
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
     }
 
     @Bean
