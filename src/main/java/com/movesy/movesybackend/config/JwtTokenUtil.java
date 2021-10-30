@@ -1,14 +1,13 @@
 package com.movesy.movesybackend.config;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +25,8 @@ public class JwtTokenUtil implements Serializable {
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
     SecretKey secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+    private int refreshExpirationDateInMs;
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
@@ -51,6 +52,41 @@ public class JwtTokenUtil implements Serializable {
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
+    }
+
+    @Value("${jwt.refreshExpirationDateInMs}")
+    public void setRefreshExpirationDateInMs(int refreshExpirationDateInMs) {
+        this.refreshExpirationDateInMs = refreshExpirationDateInMs;
+    }
+
+    public String doGenerateRefreshToken(Map<String, Object> claims, String subject) {
+
+        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpirationDateInMs))
+                .signWith(secret).compact();
+
+    }
+
+    public List<SimpleGrantedAuthority> getRolesFromToken(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
+
+        List<SimpleGrantedAuthority> roles = new ArrayList<>();
+
+        Boolean isAdmin = claims.get("isAdmin", Boolean.class);
+        Boolean isUser = claims.get("isUser", Boolean.class);
+        Boolean isTransporter = claims.get("isTransporter", Boolean.class);
+
+        if (isAdmin != null && isAdmin) {
+            roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+
+        if (isUser != null && isUser) {
+            roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        if (isTransporter != null && isTransporter) {
+            roles.add(new SimpleGrantedAuthority("ROLE_TRANSPORTER"));
+        }
+        return roles;
     }
 
     //generate token for user
