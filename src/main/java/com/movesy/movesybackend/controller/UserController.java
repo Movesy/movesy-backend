@@ -1,13 +1,9 @@
 package com.movesy.movesybackend.controller;
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.UserRepository;
-import com.movesy.movesybackend.security.SecurityConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,34 +36,6 @@ public class UserController {
     public ResponseEntity<User> getUserById(@RequestParam String id) {
         Optional<User> userData = userRepository.findById(id);
         return userData.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        System.out.println("asd");
-        SecurityConfiguration securityConfiguration = new SecurityConfiguration();
-        try {
-            String encryptedPassword = securityConfiguration.passwordEncoder().encode(user.getPassword());
-            user.setPassword(encryptedPassword);
-            userRepository.save(user);
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (Exception e) {
-            System.out.println("INTERNAL_SERVER_ERROR!");
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/login")
-    public ResponseEntity<User> login(@RequestParam String username, @RequestParam String password) {
-        User user = userRepository.findUserByUsername(username);
-        try {
-            if (user.getPassword().equals(password)) //TODO hash this bad boy
-                return new ResponseEntity<>(user, HttpStatus.OK);
-            else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            System.out.println("INTERNAL_SERVER_ERROR!");
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @PutMapping("/edit/")
