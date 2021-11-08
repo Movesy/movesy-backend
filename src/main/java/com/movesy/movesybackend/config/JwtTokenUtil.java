@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.movesy.movesybackend.model.Role;
+import com.movesy.movesybackend.model.User;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -54,9 +57,25 @@ public class JwtTokenUtil implements Serializable {
     }
 
     //generate token for user
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
+
+        switch (user.getRole()) {
+            case USER:
+                claims.put("isUser", true);
+                break;
+            case TRANSPORTER:
+                claims.put("isTransporter", true);
+                break;
+            case ADMIN:
+                claims.put("isAdmin", true);
+                break;
+            default:
+                break;
+        }
+
+        return doGenerateToken(claims, user.getUsername());
+
     }
 
     //while creating the token -
@@ -75,5 +94,26 @@ public class JwtTokenUtil implements Serializable {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public Role getRoleFromToken(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
+
+        Role role = null;
+
+        Boolean isAdmin = claims.get("isAdmin", Boolean.class);
+        Boolean isUser = claims.get("isUser", Boolean.class);
+        Boolean isTransporter = claims.get("isTransporter", Boolean.class);
+
+        if (isAdmin != null && isAdmin) {
+            role = Role.ADMIN;
+        }
+        else if (isUser != null && isUser) {
+            role = Role.USER;
+        } else if (isTransporter != null && isTransporter) {
+            role = Role.TRANSPORTER;
+        }
+
+        return role;
     }
 }
