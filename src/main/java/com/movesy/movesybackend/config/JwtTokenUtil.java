@@ -1,17 +1,14 @@
 package com.movesy.movesybackend.config;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
-import com.movesy.movesybackend.model.Role;
-import com.movesy.movesybackend.model.User;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -57,25 +54,22 @@ public class JwtTokenUtil implements Serializable {
     }
 
     //generate token for user
-    public String generateToken(User user) {
+    public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
 
-        switch (user.getRole()) {
-            case USER:
-                claims.put("isUser", true);
-                break;
-            case TRANSPORTER:
-                claims.put("isTransporter", true);
-                break;
-            case ADMIN:
-                claims.put("isAdmin", true);
-                break;
-            default:
-                break;
+        Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
+
+        if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+            claims.put("isAdmin", true);
+        }
+        else if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+            claims.put("isUser", true);
+        }
+        else if (roles.contains(new SimpleGrantedAuthority("ROLE_TRANSPORTER"))) {
+            claims.put("isTransporter", true);
         }
 
-        return doGenerateToken(claims, user.getUsername());
-
+        return doGenerateToken(claims, userDetails.getUsername());
     }
 
     //while creating the token -
@@ -96,24 +90,28 @@ public class JwtTokenUtil implements Serializable {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public Role getRoleFromToken(String token) {
+    public SimpleGrantedAuthority getRoleFromToken(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
 
-        Role role = null;
+        SimpleGrantedAuthority role = null;
 
         Boolean isAdmin = claims.get("isAdmin", Boolean.class);
         Boolean isUser = claims.get("isUser", Boolean.class);
         Boolean isTransporter = claims.get("isTransporter", Boolean.class);
 
         if (isAdmin != null && isAdmin) {
-            role = Role.ADMIN;
+            role = new SimpleGrantedAuthority("ROLE_ADMIN");
         }
-        else if (isUser != null && isUser) {
-            role = Role.USER;
-        } else if (isTransporter != null && isTransporter) {
-            role = Role.TRANSPORTER;
+
+        if (isUser != null && isUser) {
+            role = new SimpleGrantedAuthority("ROLE_USER");
+        }
+
+        if (isTransporter != null && isTransporter) {
+            role = new SimpleGrantedAuthority("ROLE_TRANSPORTER");
         }
 
         return role;
+
     }
 }

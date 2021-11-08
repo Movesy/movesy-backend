@@ -1,11 +1,14 @@
 package com.movesy.movesybackend.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import com.movesy.movesybackend.model.Role;
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,8 +31,14 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                new ArrayList<>());
+
+        Role userRole = user.getRole();
+        String roleName = userRole == Role.ADMIN ? "ROLE_ADMIN" : userRole == Role.USER ? "ROLE_USER" : userRole == Role.TRANSPORTER ? "ROLE_TRANSPORTER" : "";
+
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(roleName);
+        List<SimpleGrantedAuthority> authorities = List.of(simpleGrantedAuthority);
+
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
     public User save(User user) {
