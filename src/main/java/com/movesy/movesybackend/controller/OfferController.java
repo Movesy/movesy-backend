@@ -2,8 +2,6 @@ package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.model.Offer;
 import com.movesy.movesybackend.model.Package;
-import com.movesy.movesybackend.model.Role;
-import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.OfferRepository;
 import com.movesy.movesybackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,5 @@
 package com.movesy.movesybackend.controller;
 
-import java.util.Objects;
-
 import com.movesy.movesybackend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
