@@ -61,12 +61,15 @@ public class JwtTokenUtil implements Serializable {
 
         if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             claims.put("isAdmin", true);
+            System.out.println("Added isAdmin to the claims");
         }
         else if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
             claims.put("isUser", true);
+            System.out.println("Added isUser to the claims");
         }
         else if (roles.contains(new SimpleGrantedAuthority("ROLE_TRANSPORTER"))) {
             claims.put("isTransporter", true);
+            System.out.println("Added isTransporter to the claims");
         }
 
         return doGenerateToken(claims, userDetails.getUsername());
