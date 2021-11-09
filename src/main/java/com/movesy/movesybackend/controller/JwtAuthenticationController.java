@@ -1,6 +1,7 @@
 package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.model.User;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,6 +43,7 @@ public class JwtAuthenticationController {
                 .loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
+        LogFactory.getLog(this.getClass()).info("NEW LOGIN: " + jwtTokenUtil.getUserFromToken(token).toString());
 
         return ResponseEntity.ok(new JwtResponse(token));
     }

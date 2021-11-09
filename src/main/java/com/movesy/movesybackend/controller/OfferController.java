@@ -4,6 +4,7 @@ import com.movesy.movesybackend.model.Offer;
 import com.movesy.movesybackend.model.Package;
 import com.movesy.movesybackend.repository.OfferRepository;
 import com.movesy.movesybackend.repository.UserRepository;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class OfferController {
             offerRepository.save(offer);
             return new ResponseEntity<>(offer, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("INTERNAL_SERVER_ERROR!");
+            LogFactory.getLog(this.getClass()).error("INTERNAL_SERVER_ERROR!");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -2,6 +2,7 @@ package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.model.Review;
 import com.movesy.movesybackend.repository.ReviewRepository;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ReviewController {
             reviewRepository.save(review);
             return new ResponseEntity<>(review, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("INTERNAL_SERVER_ERROR!");
+            LogFactory.getLog(this.getClass()).error("INTERNAL_SERVER_ERROR!");
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
