@@ -1,5 +1,6 @@
 package com.movesy.movesybackend.controller;
 
+import com.movesy.movesybackend.config.JwtTokenUtil;
 import com.movesy.movesybackend.model.Package;
 import com.movesy.movesybackend.repository.PackageRepository;
 import org.apache.juli.logging.LogFactory;
@@ -19,9 +20,14 @@ public class PackageController {
     @Autowired
     PackageRepository packageRepository;
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
     @PostMapping("/create")
     public ResponseEntity<Package> createPackage(@RequestBody Package _package) {
+        String token = JwtTokenUtil.getToken();
         try {
+            _package.setUserID(jwtTokenUtil.getUserFromToken(token).getId());
             packageRepository.save(_package);
             return new ResponseEntity<>(_package, HttpStatus.OK);
         } catch (Exception e) {
@@ -52,8 +58,8 @@ public class PackageController {
     }
 
     @PutMapping("/edit/")
-    public ResponseEntity<Package> updatePackage(@RequestParam String id, @RequestBody Package editedPackage) {
-        Optional<Package> packageData = packageRepository.findById(id);
+    public ResponseEntity<Package> updatePackage(@RequestBody Package editedPackage) {
+        Optional<Package> packageData = packageRepository.findById(editedPackage.getId());
 
         if (packageData.isPresent()) {
             Package _package = packageData.get();
@@ -106,5 +112,4 @@ public class PackageController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }
