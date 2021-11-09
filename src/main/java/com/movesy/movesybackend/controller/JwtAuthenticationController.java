@@ -68,7 +68,7 @@ public class JwtAuthenticationController {
         User user = userRepository.findUserByUsername(newUser.getUsername());
         if (user != null) {
             LoggerFactory.getLogger(this.getClass()).error("USER ALREADY EXISTS: " + user);
-            return ResponseEntity.badRequest().body(user);
+            return ResponseEntity.badRequest().body("User with this username already exists");
         }
         LoggerFactory.getLogger(this.getClass()).info("USER CREATED: " + newUser);
         return ResponseEntity.ok(userDetailsService.save(newUser));
