@@ -1,7 +1,9 @@
 package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.model.User;
+import com.movesy.movesybackend.repository.UserRepository;
 import org.apache.juli.logging.LogFactory;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +29,9 @@ public class JwtAuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -59,7 +64,13 @@ public class JwtAuthenticationController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@RequestBody User user) {
-        return ResponseEntity.ok(userDetailsService.save(user));
+    public ResponseEntity<?> saveUser(@RequestBody User newUser) {
+        User user = userRepository.findUserByUsername(newUser.getUsername());
+        if (user != null) {
+            LoggerFactory.getLogger(this.getClass()).error("USER ALREADY EXISTS: " + user);
+            return ResponseEntity.badRequest().body(user);
+        }
+        LoggerFactory.getLogger(this.getClass()).info("USER CREATED: " + newUser);
+        return ResponseEntity.ok(userDetailsService.save(newUser));
     }
 }
