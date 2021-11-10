@@ -17,14 +17,17 @@ import java.util.Date;
 public class Package {
     @Id
     private String id;
+    private String name;
     private String userID;
     private String transporterID;
     private Location from;
     private Location to;
+    private Date creationDate;
     private Date deadline;
     private int price;
     private int weight;
     private Size size;
+    private Status status;
 }
 
 
