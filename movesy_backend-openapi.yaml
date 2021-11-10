@@ -54,12 +54,6 @@
   put:
     summary: "PUT offer/edit/"
     operationId: "updatePackage"
-    parameters:
-      - name: "id"
-        in: "query"
-        required: true
-        schema:
-          type: "string"
     responses:
       "200":
         description: "OK"
@@ -104,12 +98,6 @@
   put:
     summary: "PUT package/edit/"
     operationId: "updatePackage"
-    parameters:
-      - name: "id"
-        in: "query"
-        required: true
-        schema:
-          type: "string"
     responses:
       "200":
         description: "OK"
@@ -198,12 +186,6 @@
   put:
     summary: "PUT review/edit/"
     operationId: "editReviewById"
-    parameters:
-      - name: "id"
-        in: "query"
-        required: true
-        schema:
-          type: "string"
     responses:
       "200":
         description: "OK"
@@ -254,12 +236,6 @@
   put:
     summary: "PUT user/edit/"
     operationId: "updateUser"
-    parameters:
-      - name: "id"
-        in: "query"
-        required: true
-        schema:
-          type: "string"
     responses:
       "200":
         description: "OK"
