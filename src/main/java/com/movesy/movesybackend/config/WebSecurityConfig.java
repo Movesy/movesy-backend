@@ -48,25 +48,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/authenticate", "/register", "/diary").permitAll()
+                .authorizeRequests()
+                .antMatchers("/authenticate", "/register", "/diary")
+                .permitAll()
                 .antMatchers(
-                        "/user/edit/{userID}",
-                        "/package/edit/{packageID}", "/package/delete/{packageID}", "/package/user/{userID}",
-                        "/review/create", "/review/edit/{reviewID}", "/review/delete/{reviewID}",
-                        "/offer/{packageID}", "/offer/accept/{quoteID}", "/offer/reject/{quoteID}")
+                        "/user/edit/",
+                        "/package/edit/", "/package/delete/", "/package/user/",
+                        "/review/create", "/review/edit/{reviewID}", "/review/delete/",
+                        "/offer/", "/offer/accept/", "/offer/reject/")
                 .access("hasRole('ADMIN') or hasRole('USER')")
                 .antMatchers(
-                        "/package/all", "/package/transporter/{userID}",
-                        "offer/create{packageID}", "/offer/edit/{offerID}")
+                        "/package/all", "/package/transporter/",
+                        "offer/create/", "/offer/edit/")
                 .access("hasRole('ADMIN') or hasRole('TRANSPORTER')")
                 .antMatchers(
-                        "/package/{packageID}", "/review/{packageID}",
-                        "/review/transporter/{transporterID}")
+                        "/package/", "/review/",
+                        "/review/transporter/")
                 .access("hasRole('ADMIN') or hasRole('USER') or hasRole('TRANSPORTER')")
-                .anyRequest().hasRole("ADMIN").
-                        and().
-                        exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anyRequest()
+                .hasRole("ADMIN")
+                .and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
