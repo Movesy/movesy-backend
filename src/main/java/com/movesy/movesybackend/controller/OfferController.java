@@ -1,5 +1,6 @@
 package com.movesy.movesybackend.controller;
 
+import com.movesy.movesybackend.config.JwtTokenUtil;
 import com.movesy.movesybackend.model.Offer;
 import com.movesy.movesybackend.model.Package;
 import com.movesy.movesybackend.repository.OfferRepository;
@@ -24,9 +25,14 @@ public class OfferController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
     @PostMapping("/create/")
     public ResponseEntity<Offer> createOffer(@RequestBody Offer offer) {
         try {
+            String token = JwtTokenUtil.getToken();
+            offer.setTransporterID(jwtTokenUtil.getUserFromToken(token).getId());
             offerRepository.save(offer);
             return new ResponseEntity<>(offer, HttpStatus.OK);
         } catch (Exception e) {
@@ -50,8 +56,8 @@ public class OfferController {
     }
 
     @PutMapping("/edit/")
-    public ResponseEntity<Offer> updatePackage(@RequestParam String id, @RequestBody Package editedOffer) {
-        Optional<Offer> offerData = offerRepository.findById(id);
+    public ResponseEntity<Offer> updatePackage(@RequestBody Package editedOffer) {
+        Optional<Offer> offerData = offerRepository.findById(editedOffer.getId());
 
         if (offerData.isPresent()) {
             Offer _offer = offerData.get();

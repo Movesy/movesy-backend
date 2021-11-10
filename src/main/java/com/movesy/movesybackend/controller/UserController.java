@@ -1,4 +1,5 @@
 package com.movesy.movesybackend.controller;
+
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,21 +40,18 @@ public class UserController {
     }
 
     @PutMapping("/edit/")
-    public ResponseEntity<User> updateUser(@RequestParam String id, @RequestBody User user){
-        Optional<User> userData = userRepository.findById(id);
+    public ResponseEntity<User> updateUser(@RequestBody User editedUser) {
+        Optional<User> userData = userRepository.findById(editedUser.getId());
         if (userData.isPresent()) {
             User _user = userData.get();
-            _user.setUsername(user.getUsername());
-            _user.setPassword(user.getPassword());
-            _user.setEmail(user.getEmail());
-            _user.setTelephone(user.getTelephone());
-            _user.setSize(user.getSize());
-            _user.setRole(user.getRole());
+            _user.setId(editedUser.getId());
+            _user = editedUser;
             return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @DeleteMapping("/delete/")
     public ResponseEntity<HttpStatus> deleteUser(@RequestParam String id) {
         try {

@@ -63,12 +63,8 @@ public class PackageController {
 
         if (packageData.isPresent()) {
             Package _package = packageData.get();
-            _package.setFrom(editedPackage.getFrom());
-            _package.setTo(editedPackage.getTo());
-            _package.setDeadline(editedPackage.getDeadline());
-            _package.setPrice(editedPackage.getPrice());
-            _package.setSize(editedPackage.getSize());
-            _package.setWeight(editedPackage.getWeight());
+            editedPackage.setId(_package.getId());
+            _package = editedPackage;
             return new ResponseEntity<>(packageRepository.save(_package), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

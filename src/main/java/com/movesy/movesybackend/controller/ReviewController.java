@@ -1,5 +1,6 @@
 package com.movesy.movesybackend.controller;
 
+import com.movesy.movesybackend.config.JwtTokenUtil;
 import com.movesy.movesybackend.model.Review;
 import com.movesy.movesybackend.repository.ReviewRepository;
 import org.apache.juli.logging.LogFactory;
@@ -20,9 +21,14 @@ public class ReviewController {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
     @PostMapping("/create")
     public ResponseEntity<Review> createReview(@RequestBody Review review) {
         try {
+            String token = JwtTokenUtil.getToken();
+            review.setTransporterID(jwtTokenUtil.getUserFromToken(token).getId());
             Calendar actual_time = Calendar.getInstance();
             review.setTime(actual_time.getTime());
             reviewRepository.save(review);
@@ -48,17 +54,18 @@ public class ReviewController {
     }
 
     @PutMapping("edit/")
-    public ResponseEntity<?> editReviewById(@RequestParam String id, @RequestBody Review review) {
-        Optional<Review> reviewData = reviewRepository.findById(id);
+    public ResponseEntity<?> editReviewById(@RequestBody Review editedReview) {
+        Optional<Review> reviewData = reviewRepository.findById(editedReview.getId());
         if (reviewData.isPresent()) {
             Review _review = reviewData.get();
-            _review.setDescription(review.getDescription());
-            _review.setRating(review.getRating());
+            editedReview.setId(_review.getId());
+            _review = editedReview;
             return new ResponseEntity<>(reviewRepository.save(_review), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @DeleteMapping("/delete/")
     public ResponseEntity<HttpStatus> deleteReview(@RequestParam String id) {
         try {
@@ -68,6 +75,7 @@ public class ReviewController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/transporter/")
     public ResponseEntity<List<Review>> getReviewsByTransporter(@RequestParam String id) {
         try {
