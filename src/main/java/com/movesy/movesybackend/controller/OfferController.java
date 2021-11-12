@@ -56,13 +56,11 @@ public class OfferController {
     }
 
     @PutMapping("/edit/")
-    public ResponseEntity<Offer> updatePackage(@RequestBody Package editedOffer) {
+    public ResponseEntity<Offer> updateOffer(@RequestBody Offer editedOffer) {
         Optional<Offer> offerData = offerRepository.findById(editedOffer.getId());
 
         if (offerData.isPresent()) {
-            Offer _offer = offerData.get();
-            _offer.setPrice(editedOffer.getPrice());
-            return new ResponseEntity<>(offerRepository.save(_offer), HttpStatus.OK);
+            return new ResponseEntity<>(offerRepository.save(editedOffer), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

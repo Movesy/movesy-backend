@@ -58,7 +58,8 @@ public class ReviewController {
         Optional<Review> reviewData = reviewRepository.findById(editedReview.getId());
         if (reviewData.isPresent()) {
             Review _review = reviewData.get();
-            editedReview.setId(_review.getId());
+            Calendar actual_time = Calendar.getInstance();
+            _review.setTime(actual_time.getTime());
             _review = editedReview;
             return new ResponseEntity<>(reviewRepository.save(_review), HttpStatus.OK);
         } else {

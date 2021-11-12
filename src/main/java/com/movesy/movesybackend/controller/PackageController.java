@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,8 @@ public class PackageController {
         String token = JwtTokenUtil.getToken();
         try {
             _package.setUserID(jwtTokenUtil.getUserFromToken(token).getId());
+            Calendar actual_time = Calendar.getInstance();
+            _package.setCreationDate(actual_time.getTime());
             packageRepository.save(_package);
             return new ResponseEntity<>(_package, HttpStatus.OK);
         } catch (Exception e) {
@@ -53,7 +56,6 @@ public class PackageController {
     @GetMapping("/")
     public ResponseEntity<Package> getPackageById(@RequestParam String id) {
         Optional<Package> packageData = packageRepository.findById(id);
-
         return packageData.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -62,10 +64,7 @@ public class PackageController {
         Optional<Package> packageData = packageRepository.findById(editedPackage.getId());
 
         if (packageData.isPresent()) {
-            Package _package = packageData.get();
-            editedPackage.setId(_package.getId());
-            _package = editedPackage;
-            return new ResponseEntity<>(packageRepository.save(_package), HttpStatus.OK);
+            return new ResponseEntity<>(packageRepository.save(editedPackage), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
