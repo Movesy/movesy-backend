@@ -2,14 +2,13 @@ package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.config.JwtTokenUtil;
 import com.movesy.movesybackend.model.Offer;
-import com.movesy.movesybackend.model.Package;
+import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.OfferRepository;
 import com.movesy.movesybackend.repository.UserRepository;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
