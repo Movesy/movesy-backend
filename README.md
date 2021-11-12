@@ -25,3 +25,7 @@ A felhasználók role-jait a jwt tokenbe tettük bele, hogy a későbbiekben le 
 
 # 8. hét
 Megírtuk az authorization részt, így most minden felhasználó csak azokat az endpointokat használhatja, amihez engedéle van a role-ja alapján. Ehhez a Spring [hivatalos dokumentációjában](https://docs.spring.io/spring-security/site/docs/5.2.11.RELEASE/reference/html/authorization.html) találtunk segítséget.
+Pontosítottuk az alkalmazás OpenAPI dokumentációját és summary-kkel láttuk el, hogy könnyebben el lehessen rajta igazodni a frontendeseknek.
+Megpróbáltuk megoldani, hogy a MongoDB jelszavunk ne legyen kint githubon ahol bárki megtalálhatja, de hosszas próbálkozás után sajnos nem jártunk sikerrel.
+Arra jutottunk, hogy a Jasypt toollal titkosítani lehet bármit, amit el akarunk rejteni mások elől, majd egy előre megadott kulcs segítségével visszafejteni az eredeti Stringet, a kulcsot meg lokálisan kell tárolni a biztonságosság érdekében.
+Azért hagytuk abba a próbálkozást, mert rájöttünk, hogy ha ki akarjuk tenni Herokura az appot, akkor ott nem fog működni ez, hiszen nem tudunk a Heroku szerverekre kulcsokat pakolni. (Meg egyébként sincs akkora veszélynek kitéve az alkalmazásunk hogy erre nagy szükség legyen)
