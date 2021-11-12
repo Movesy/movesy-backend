@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/package/", "/review/",
                         "/review/transporter/")
                 .hasAnyRole("ADMIN", "USER", "TRANSPORTER")
-                .anyRequest().denyAll()
+                .anyRequest().hasRole("ADMIN")
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
