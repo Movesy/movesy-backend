@@ -28,7 +28,7 @@ public class ReviewController {
     public ResponseEntity<Review> createReview(@RequestBody Review review) {
         try {
             String token = JwtTokenUtil.getToken();
-            review.setTransporterID(jwtTokenUtil.getUserFromToken(token).getId());
+            review.setCustomerUsername(jwtTokenUtil.getUsernameFromToken(token));
             Calendar actual_time = Calendar.getInstance();
             review.setTime(actual_time.getTime());
             reviewRepository.save(review);
