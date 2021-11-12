@@ -53,7 +53,7 @@
 /offer/edit/:
   put:
     summary: "Edit an offer "
-    operationId: "updatePackage"
+    operationId: "updateOffer"
     responses:
       "200":
         description: "OK"
