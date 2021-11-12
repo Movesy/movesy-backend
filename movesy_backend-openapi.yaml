@@ -1,6 +1,6 @@
 /authenticate:
   post:
-    summary: "POST authenticate"
+    summary: "authenticate an user"
     operationId: "createAuthenticationToken"
     responses:
       "200":
@@ -16,7 +16,7 @@
 ---
 /offer/:
   get:
-    summary: "GET offer/"
+    summary: "GET an offer by PackageId"
     operationId: "getOffersByPackageID"
     parameters:
       - name: "id"
@@ -30,7 +30,7 @@
 ---
 /offer/create/:
   post:
-    summary: "POST offer/create/"
+    summary: "POST create an offer"
     operationId: "createOffer"
     responses:
       "200":
@@ -38,7 +38,7 @@
 ---
 /offer/delete/:
   delete:
-    summary: "DELETE offer/delete/"
+    summary: "DELETE an offer by ID"
     operationId: "deleteOffer"
     parameters:
       - name: "id"
@@ -52,7 +52,7 @@
 ---
 /offer/edit/:
   put:
-    summary: "PUT offer/edit/"
+    summary: "Edit an offer "
     operationId: "updatePackage"
     responses:
       "200":
@@ -60,7 +60,7 @@
 ---
 /package/:
   get:
-    summary: "GET package/"
+    summary: "GET a package by ID"
     operationId: "getPackageById"
     parameters:
       - name: "id"
@@ -74,7 +74,7 @@
 ---
 /package/create:
   post:
-    summary: "POST package/create"
+    summary: "Create a package"
     operationId: "createPackage"
     responses:
       "200":
@@ -82,7 +82,7 @@
 ---
 /package/delete/:
   delete:
-    summary: "DELETE package/delete/"
+    summary: "DELETE a package by ID "
     operationId: "deletePackage"
     parameters:
       - name: "id"
@@ -96,7 +96,7 @@
 ---
 /package/edit/:
   put:
-    summary: "PUT package/edit/"
+    summary: "Edit a package"
     operationId: "updatePackage"
     responses:
       "200":
@@ -104,7 +104,7 @@
 ---
 /package/list:
   get:
-    summary: "GET package/list"
+    summary: "GET all package"
     operationId: "getAllPackages"
     responses:
       "200":
@@ -112,7 +112,7 @@
 ---
 /package/transporter/:
   get:
-    summary: "GET package/transporter/"
+    summary: "GET all package by transporter(Which belongs to him)"
     operationId: "getPackagesByTransporter"
     parameters:
       - name: "id"
@@ -126,7 +126,7 @@
 ---
 /package/user/:
   get:
-    summary: "GET package/user/"
+    summary: "GET all package by User(Which belongs to him)"
     operationId: "getPackagesByUser"
     parameters:
       - name: "id"
@@ -140,7 +140,7 @@
 ---
 /register:
   post:
-    summary: "POST register"
+    summary: "Register an user to the system"
     operationId: "saveUser"
     responses:
       "200":
@@ -148,7 +148,7 @@
 ---
 /review/:
   get:
-    summary: "GET review/"
+    summary: "GET a review by packageId"
     operationId: "getReviewByPackageId"
     parameters:
       - name: "id"
@@ -162,7 +162,7 @@
 ---
 /review/create:
   post:
-    summary: "POST review/create"
+    summary: "Create a review"
     operationId: "createReview"
     responses:
       "200":
@@ -170,7 +170,7 @@
 ---
 /review/delete/:
   delete:
-    summary: "DELETE review/delete/"
+    summary: "DELETE a review by Id"
     operationId: "deleteReview"
     parameters:
       - name: "id"
@@ -184,7 +184,7 @@
 ---
 /review/edit/:
   put:
-    summary: "PUT review/edit/"
+    summary: "Edit a review by ID"
     operationId: "editReviewById"
     responses:
       "200":
@@ -192,7 +192,7 @@
 ---
 /review/transporter/:
   get:
-    summary: "GET review/transporter/"
+    summary: "Get all review by Transporter(Which belongs to him)"
     operationId: "getReviewsByTransporter"
     parameters:
       - name: "id"
@@ -206,7 +206,7 @@
 ---
 /user/:
   get:
-    summary: "GET user/"
+    summary: "GET an user by ID"
     operationId: "getUserById"
     parameters:
       - name: "id"
@@ -220,7 +220,7 @@
 ---
 /user/delete/:
   delete:
-    summary: "DELETE user/delete/"
+    summary: "DELETE an User"
     operationId: "deleteUser"
     parameters:
       - name: "id"
@@ -234,7 +234,7 @@
 ---
 /user/edit/:
   put:
-    summary: "PUT user/edit/"
+    summary: "Edit a user"
     operationId: "updateUser"
     responses:
       "200":
@@ -242,7 +242,7 @@
 ---
 /user/list:
   get:
-    summary: "GET user/list"
+    summary: "GET all user"
     operationId: "getAllUsers"
     responses:
       "200":

@@ -18,7 +18,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-
     @GetMapping("/list")
     public ResponseEntity<?> getAllUsers() {
         try {
