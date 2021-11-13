@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -57,11 +58,38 @@ public class OfferController {
     @PutMapping("/edit/")
     public ResponseEntity<Offer> updateOffer(@RequestBody Offer editedOffer) {
         Optional<Offer> offerData = offerRepository.findById(editedOffer.getId());
-
         if (offerData.isPresent()) {
             return new ResponseEntity<>(offerRepository.save(editedOffer), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/accept/")
+    public ResponseEntity<HttpStatus> acceptOffer(@RequestParam String id) {
+        try {
+            Optional<Offer> offerData = offerRepository.findById(id);
+            if (offerData.isPresent()) {
+                List<Offer> offers = offerRepository.findOfferByPackageID(offerData.get().getPackageID());
+                for(Offer offer : offers){
+                    if(!Objects.equals(offer.getId(), id)){
+                        offerRepository.deleteById(offer.getId());
+                    }
+                }
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/reject/")
+    public ResponseEntity<HttpStatus> rejectOffer(@RequestParam String id) {
+        try {
+            offerRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

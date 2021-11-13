@@ -29,8 +29,6 @@ public class ReviewController {
         try {
             String token = JwtTokenUtil.getToken();
             review.setCustomerUsername(jwtTokenUtil.getUsernameFromToken(token));
-            Calendar actual_time = Calendar.getInstance();
-            review.setTime(actual_time.getTime());
             reviewRepository.save(review);
             return new ResponseEntity<>(review, HttpStatus.OK);
         } catch (Exception e) {
@@ -58,8 +56,6 @@ public class ReviewController {
         Optional<Review> reviewData = reviewRepository.findById(editedReview.getId());
         if (reviewData.isPresent()) {
             Review _review = reviewData.get();
-            Calendar actual_time = Calendar.getInstance();
-            _review.setTime(actual_time.getTime());
             _review = editedReview;
             return new ResponseEntity<>(reviewRepository.save(_review), HttpStatus.OK);
         } else {
