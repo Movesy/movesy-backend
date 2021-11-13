@@ -2,8 +2,10 @@ package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.config.JwtTokenUtil;
 import com.movesy.movesybackend.model.Offer;
+import com.movesy.movesybackend.model.Package;
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.OfferRepository;
+import com.movesy.movesybackend.repository.PackageRepository;
 import com.movesy.movesybackend.repository.UserRepository;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class OfferController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    PackageRepository packageRepository;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -70,12 +75,19 @@ public class OfferController {
         try {
             Optional<Offer> offerData = offerRepository.findById(id);
             if (offerData.isPresent()) {
+                Package _package = packageRepository.findPackageById(offerData.get().getPackageID());
+                String token = JwtTokenUtil.getToken();
+                User user = jwtTokenUtil.getUserFromToken(token);
+                if (!Objects.equals(_package.getUserID(), user.getId()))
+                    throw new SecurityException("This user does not have the right to accept this offer!");
                 List<Offer> offers = offerRepository.findOfferByPackageID(offerData.get().getPackageID());
                 for(Offer offer : offers){
                     if(!Objects.equals(offer.getId(), id)){
                         offerRepository.deleteById(offer.getId());
                     }
                 }
+                _package.setTransporterID(offerData.get().getTransporterID());
+                packageRepository.save(_package);
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
