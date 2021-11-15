@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class ReviewController {
     JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/create")
-    public ResponseEntity<Review> createReview(@RequestBody Review review) {
+    public ResponseEntity<Review> createReview(@Valid @RequestBody Review review) {
         try {
             String token = JwtTokenUtil.getToken();
             review.setCustomerUsername(jwtTokenUtil.getUsernameFromToken(token));
@@ -54,7 +55,7 @@ public class ReviewController {
     }
 
     @PutMapping("/edit/")
-    public ResponseEntity<?> editReviewById(@RequestBody Review editedReview) {
+    public ResponseEntity<?> editReviewById(@Valid @RequestBody Review editedReview) {
         Optional<Review> reviewData = reviewRepository.findById(editedReview.getId());
         if (reviewData.isPresent()) {
             Review _review = reviewData.get();

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class OfferController {
     JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/create/")
-    public ResponseEntity<Offer> createOffer(@RequestBody Offer offer) {
+    public ResponseEntity<Offer> createOffer(@Valid @RequestBody Offer offer) {
         try {
             String token = JwtTokenUtil.getToken();
             offer.setTransporterID(jwtTokenUtil.getUserFromToken(token).getId());
@@ -55,7 +56,7 @@ public class OfferController {
     }
 
     @PutMapping("/edit/")
-    public ResponseEntity<Offer> updateOffer(@RequestBody Offer editedOffer) {
+    public ResponseEntity<Offer> updateOffer(@Valid @RequestBody Offer editedOffer) {
         Optional<Offer> offerData = offerRepository.findById(editedOffer.getId());
 
         if (offerData.isPresent()) {

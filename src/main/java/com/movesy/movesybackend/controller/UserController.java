@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @PutMapping("/edit/")
-    public ResponseEntity<User> updateUser(@RequestBody User editedUser) {
+    public ResponseEntity<User> updateUser(@Valid @RequestBody User editedUser) {
         Optional<User> userData = userRepository.findById(editedUser.getId());
         if (userData.isPresent()) {
             User _user = userData.get();
