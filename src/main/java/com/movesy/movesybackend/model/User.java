@@ -4,9 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 @Setter
 @Getter
@@ -19,19 +17,25 @@ public class User {
     private String id;
     @NotNull(message = "Role is mandatory")
     private Role role;
-    @NotNull(message = "Username is mandatory")
-    @NotBlank(message = "Username is mandatory")
+    @NotNull(message = "Username cannot be null")
+    @NotBlank(message = "Username cannot be blank")
+    @Min(4)
+    @Max(20)
     private String username;
-    @NotNull(message = "Password is mandatory")
-    @NotBlank(message = "Password is mandatory")
+    @NotNull(message = "Password cannot be null")
+    @NotBlank(message = "Password cannot be blank")
+    @Min(5)
+    @Max(20)
     private String password;
-    @NotNull(message = "Email is mandatory")
-    @NotBlank(message = "Email is mandatory")
+    @NotNull(message = "Email is cannot be null")
+    @NotBlank(message = "Email cannot be blank")
     @Email
     private String email;
-    @NotNull(message = "Telephone is mandatory")
-    @NotBlank(message = "Telephone is mandatory")
+    @NotNull(message = "Telephone cannot be null")
+    @NotBlank(message = "Telephone cannot be blank")
+    @Min(5)
+    @Max(20)
     private String telephone;
-    @NotNull(message = "Size is mandatory")
+    @NotNull(message = "Size cannot be null")
     private Size size;
 }
