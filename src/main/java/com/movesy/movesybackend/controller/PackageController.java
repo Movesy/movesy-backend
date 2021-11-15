@@ -30,8 +30,6 @@ public class PackageController {
         String token = JwtTokenUtil.getToken();
         try {
             _package.setUserID(jwtTokenUtil.getUserFromToken(token).getId());
-            Calendar actual_time = Calendar.getInstance();
-            _package.setCreationDate(actual_time.getTime());
             packageRepository.save(_package);
             return new ResponseEntity<>(_package, HttpStatus.OK);
         } catch (Exception e) {

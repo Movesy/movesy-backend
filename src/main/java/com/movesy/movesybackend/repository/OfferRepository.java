@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface OfferRepository extends MongoRepository<Offer, String> {
     List<Offer> findOfferByPackageID(String id);
+    Offer findOfferById(String id);
 }

@@ -58,14 +58,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/offer/", "/offer/accept/", "/offer/reject/")
                 .hasAnyRole("ADMIN", "USER")
                 .antMatchers(
-                        "/package/all", "/package/transporter/",
+                        "/package/list", "/package/transporter/",
                         "/offer/create/", "/offer/edit/")
                 .hasAnyRole("ADMIN", "TRANSPORTER")
                 .antMatchers(
                         "/package/", "/review/",
                         "/review/transporter/")
                 .hasAnyRole("ADMIN", "USER", "TRANSPORTER")
-                .anyRequest().denyAll()
+                .anyRequest().hasRole("ADMIN")
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
