@@ -56,9 +56,7 @@ public class ReviewController {
     public ResponseEntity<?> editReviewById(@Valid @RequestBody Review editedReview) {
         Optional<Review> reviewData = reviewRepository.findById(editedReview.getId());
         if (reviewData.isPresent()) {
-            Review _review = reviewData.get();
-            _review = editedReview;
-            return new ResponseEntity<>(reviewRepository.save(_review), HttpStatus.OK);
+            return new ResponseEntity<>(reviewRepository.save(reviewData.get()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

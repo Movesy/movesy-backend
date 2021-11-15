@@ -15,27 +15,27 @@ import javax.validation.constraints.*;
 public class User {
     @Id
     private String id;
+
     @NotNull(message = "Role is mandatory")
     private Role role;
+
     @NotNull(message = "Username cannot be null")
     @NotBlank(message = "Username cannot be blank")
-    @Min(4)
-    @Max(20)
     private String username;
+
     @NotNull(message = "Password cannot be null")
     @NotBlank(message = "Password cannot be blank")
-    @Min(5)
-    @Max(20)
     private String password;
+
     @NotNull(message = "Email is cannot be null")
     @NotBlank(message = "Email cannot be blank")
     @Email
     private String email;
+
     @NotNull(message = "Telephone cannot be null")
     @NotBlank(message = "Telephone cannot be blank")
-    @Min(5)
-    @Max(20)
     private String telephone;
+
     @NotNull(message = "Size cannot be null")
     private Size size;
 }

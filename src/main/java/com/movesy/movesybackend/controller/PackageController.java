@@ -61,7 +61,6 @@ public class PackageController {
     @PutMapping("/edit/")
     public ResponseEntity<Package> updatePackage(@Valid @RequestBody Package editedPackage) {
         Optional<Package> packageData = packageRepository.findById(editedPackage.getId());
-
         if (packageData.isPresent()) {
             return new ResponseEntity<>(packageRepository.save(editedPackage), HttpStatus.OK);
         } else {
