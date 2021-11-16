@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,7 +22,8 @@ public class Package {
 
     @NotNull(message = "Name cannot be null")
     @NotBlank(message = "Name cannot be null")
-    @Pattern(regexp = "^[a-zA-Z]{5,30}$")
+    @Length(min = 5, max = 30)
+    @Pattern(regexp = "[a-zA-Z]+")
     private String name;
 
     @NotNull(message = "UserID cannot be null")

@@ -52,7 +52,6 @@ public class OfferController {
     public ResponseEntity<List<Offer>> getOffersByPackageID(@RequestParam String id) {
         try {
             List<Offer> offers = offerRepository.findOfferByPackageID(id);
-
             if (offers.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
