@@ -2,6 +2,7 @@ package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.config.JwtTokenUtil;
 import com.movesy.movesybackend.model.Review;
+import com.movesy.movesybackend.model.Role;
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.ReviewRepository;
 import org.apache.juli.logging.LogFactory;
@@ -59,7 +60,7 @@ public class ReviewController {
         Optional<Review> reviewData = reviewRepository.findById(editedReview.getId());
         String token = JwtTokenUtil.getToken();
         User user = jwtTokenUtil.getUserFromToken(token);
-        if (reviewData.isPresent() && Objects.equals(user.getUsername(), editedReview.getCustomerUsername())) {
+        if (reviewData.isPresent() && (Objects.equals(user.getUsername(), editedReview.getCustomerUsername()) || user.getRole() == Role.ADMIN)) {
             return new ResponseEntity<>(reviewRepository.save(reviewData.get()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

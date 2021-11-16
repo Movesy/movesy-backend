@@ -1,6 +1,7 @@
 package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.config.JwtTokenUtil;
+import com.movesy.movesybackend.model.Role;
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class UserController {
         Optional<User> userData = userRepository.findById(editedUser.getId());
         String token = JwtTokenUtil.getToken();
         User user = jwtTokenUtil.getUserFromToken(token);
-        if (userData.isPresent() && Objects.equals(user.getId(), editedUser.getId())) {
+        if (userData.isPresent() && (Objects.equals(user.getId(), editedUser.getId()) || user.getRole() == Role.ADMIN)) {
             return new ResponseEntity<>(userRepository.save(editedUser), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

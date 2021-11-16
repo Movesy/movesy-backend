@@ -2,6 +2,8 @@ package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.config.JwtTokenUtil;
 import com.movesy.movesybackend.model.Package;
+import com.movesy.movesybackend.model.Role;
+import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.PackageRepository;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/package")
@@ -61,7 +60,9 @@ public class PackageController {
     @PutMapping("/edit/")
     public ResponseEntity<Package> updatePackage(@Valid @RequestBody Package editedPackage) {
         Optional<Package> packageData = packageRepository.findById(editedPackage.getId());
-        if (packageData.isPresent()) {
+        String token = JwtTokenUtil.getToken();
+        User user = jwtTokenUtil.getUserFromToken(token);
+        if (packageData.isPresent() && (Objects.equals(user.getId(), editedPackage.getUserID()) || user.getRole() == Role.ADMIN)) {
             return new ResponseEntity<>(packageRepository.save(editedPackage), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
