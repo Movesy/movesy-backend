@@ -4,34 +4,31 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
+@ControllerAdvice
 public class CustomFieldError {
-    private String field;
-    private String message;
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public final ResponseEntity<Object> handleUserMethodFieldErrors(MethodArgumentNotValidException ex) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
         final List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-        final List<CustomFieldError> customFieldErrors = new ArrayList<>();
-
-        for (FieldError fieldError : fieldErrors) {
-            final String field = fieldError.getField();
-            final String message = fieldError.getDefaultMessage();
-            final CustomFieldError customFieldError = CustomFieldError.builder().field(field).message(message).build();
-
-            customFieldErrors.add(customFieldError);
-        }
-        return ResponseEntity.badRequest().body(customFieldErrors);
+        final String field = fieldErrors.get(0).getField();
+        final String message = fieldErrors.get(0).getDefaultMessage();
+        Map<String, Object> body = new HashMap<>();
+        body.put("field", field);
+        body.put("message", message);
+        return new ResponseEntity<>(body, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }
