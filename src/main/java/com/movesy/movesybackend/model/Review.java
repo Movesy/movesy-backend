@@ -19,17 +19,29 @@ public class Review {
     @Id
     private String id;
 
+    @NotNull(message = "TransporterID cannot be null")
+    @NotBlank(message = "TransporterID cannot be blank")
     private String transporterID;
+
+    @NotNull(message = "PackageID cannot be null")
+    @NotBlank(message = "PackageID cannot be blank")
     private String packageID;
+
     @NotBlank(message = "Username cannot be empty at Review")
     @NotNull(message = "Username cannot be empty at Review")
-    @Pattern(regexp = "/^[a-zA-Z]{5,20}$/",message = "Username length must be in 5 to 20 range")
+    @Pattern(regexp = "^[a-zA-Z0-9]{4,20}$", message = "Username can be 4-20 characters long and should only contain letters between a-z, A-Z and numbers between 0-9")
     private String customerUsername;
-    @NotNull(message = "You must give a time for Review")
+
+    @NotNull(message = "Reviews must have creation time")
     private Date time;
-    @Min(value = 0 , message = "The rating of an offer is smaller than 0")
-    @Max(value = 5  , message = "The rating of an offer is greater than 5")
+
+    @NotNull(message = "Rating should not be empty")
+    @Min(value = 0, message = "The rating should be equal to, or greater than 0")
+    @Max(value = 5, message = "The rating should be equal to, or lesser than 5")
     private int rating;
-    @Pattern(regexp = "/^[a-zA-Z]{0,5000}$/",message = "Description length must be in 0 to 5000 range")
+
+    @NotBlank(message = "Description should not be empty")
+    @NotNull(message = "Description should not be empty")
+    @Pattern(regexp = "^[a-zA-Z0-9., \"%/()'+!?;:@&<>$-]{0,5000}$", message = "Description length must be between 0-5000 characters long and should not contain very special characters! (Allowed symbold are: ., \"%/()'+!?;:@&<>$-)")
     private String description;
 }
