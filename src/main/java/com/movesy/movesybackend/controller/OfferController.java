@@ -85,8 +85,8 @@ public class OfferController {
                 if (!Objects.equals(_package.getUserID(), user.getId()))
                     throw new SecurityException("This user does not have the right to accept this offer!");
                 List<Offer> offers = offerRepository.findOfferByPackageID(offerData.get().getPackageID());
-                for(Offer offer : offers){
-                    if(!Objects.equals(offer.getId(), id)){
+                for (Offer offer : offers) {
+                    if (!Objects.equals(offer.getId(), id)) {
                         offerRepository.deleteById(offer.getId());
                     }
                 }
@@ -101,18 +101,21 @@ public class OfferController {
 
     @DeleteMapping("/reject/")
     public ResponseEntity<HttpStatus> rejectOffer(@RequestParam String id) {
-        try {
-            offerRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return deleteOffer(id);
     }
 
     @DeleteMapping("/delete/")
     public ResponseEntity<HttpStatus> deleteOffer(@RequestParam String id) {
         try {
-            offerRepository.deleteById(id);
+            Optional<Offer> offerData = offerRepository.findById(id);
+            if (offerData.isPresent()) {
+                Package _package = packageRepository.findPackageById(offerData.get().getPackageID());
+                String token = JwtTokenUtil.getToken();
+                User user = jwtTokenUtil.getUserFromToken(token);
+                if (!Objects.equals(_package.getUserID(), user.getId()))
+                    throw new SecurityException("This user does not have the right to modify this offer!");
+                offerRepository.deleteById(id);
+            }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
