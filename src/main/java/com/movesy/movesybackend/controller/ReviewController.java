@@ -2,6 +2,7 @@ package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.config.JwtTokenUtil;
 import com.movesy.movesybackend.model.Review;
+import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.ReviewRepository;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -55,7 +57,9 @@ public class ReviewController {
     @PutMapping("/edit/")
     public ResponseEntity<?> editReviewById(@Valid @RequestBody Review editedReview) {
         Optional<Review> reviewData = reviewRepository.findById(editedReview.getId());
-        if (reviewData.isPresent()) {
+        String token = JwtTokenUtil.getToken();
+        User user = jwtTokenUtil.getUserFromToken(token);
+        if (reviewData.isPresent() && Objects.equals(user.getUsername(), editedReview.getCustomerUsername())) {
             return new ResponseEntity<>(reviewRepository.save(reviewData.get()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
