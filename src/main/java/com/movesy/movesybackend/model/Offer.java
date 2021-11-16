@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
@@ -17,8 +19,16 @@ import javax.validation.constraints.Min;
 public class Offer {
     @Id
     String id;
+
+    @NotNull(message = "PackageID should not be null")
+    @NotBlank(message = "PackageID should not be blank")
     String packageID;
+
+    @NotNull(message = "TransporterID should not be null")
+    @NotBlank(message = "TransporterID should not be blank")
     String transporterID;
-    @Min(value = 0,message = "The price is smaller than 0 in Offer")
+
+    @NotNull(message = "Price should not be null")
+    @Min(value = 0, message = "The price is smaller than 0 in Offer")
     int price;
 }
