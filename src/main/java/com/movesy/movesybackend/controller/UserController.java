@@ -1,5 +1,6 @@
 package com.movesy.movesybackend.controller;
 
+import com.movesy.movesybackend.config.JwtTokenUtil;
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -18,6 +20,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/list")
     public ResponseEntity<?> getAllUsers() {
@@ -42,11 +47,10 @@ public class UserController {
     @PutMapping("/edit/")
     public ResponseEntity<User> updateUser(@Valid @RequestBody User editedUser) {
         Optional<User> userData = userRepository.findById(editedUser.getId());
-        if (userData.isPresent()) {
-            User _user = userData.get();
-            _user.setId(editedUser.getId());
-            _user = editedUser;
-            return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+        String token = JwtTokenUtil.getToken();
+        User user = jwtTokenUtil.getUserFromToken(token);
+        if (userData.isPresent() && Objects.equals(user.getId(), editedUser.getId())) {
+            return new ResponseEntity<>(userRepository.save(editedUser), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
