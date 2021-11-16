@@ -3,6 +3,7 @@ package com.movesy.movesybackend.controller;
 import com.movesy.movesybackend.config.JwtTokenUtil;
 import com.movesy.movesybackend.model.Offer;
 import com.movesy.movesybackend.model.Package;
+import com.movesy.movesybackend.model.Role;
 import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.OfferRepository;
 import com.movesy.movesybackend.repository.PackageRepository;
@@ -64,7 +65,9 @@ public class OfferController {
     @PutMapping("/edit/")
     public ResponseEntity<Offer> updateOffer(@Valid @RequestBody Offer editedOffer) {
         Optional<Offer> offerData = offerRepository.findById(editedOffer.getId());
-        if (offerData.isPresent()) {
+        String token = JwtTokenUtil.getToken();
+        User user = jwtTokenUtil.getUserFromToken(token);
+        if (offerData.isPresent() && (Objects.equals(user.getId(), editedOffer.getTransporterID()) || user.getRole() == Role.ADMIN)) {
             return new ResponseEntity<>(offerRepository.save(editedOffer), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
