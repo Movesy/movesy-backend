@@ -1,26 +1,24 @@
 package com.movesy.movesybackend.model;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
+@RequiredArgsConstructor
 public class Location {
-    @Min(value = -180,message = "The value of longitude is smaller than -180")
-    @Max(value =  180 , message = "The value of longitude is greater than 180")
-    @NotEmpty(message = "You have to give a longitude value")
+    @Min(value = -180, message = "The value of longitude should be equal to or grater than -180")
+    @Max(value = 180, message = "The value of longitude should be equal to or lesser than 180")
+    @NotNull(message = "Longitude should not be null")
     double longitude;
-    @Min(value =-90,message = "The value of latitude is smaller than -90")
-    @Max(value = 90,message = "The value of latitude is greater than 90")
-    @NotEmpty(message = "You must give a latitude value")
-    double latitude;
 
-    Location(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
+    @Min(value = -90, message = "The value of latitude should be equal to or grater than -90")
+    @Max(value = 90, message = "The value of latitude should be equal to or lesser than 90")
+    @NotNull(message = "Latitude should not be null")
+    double latitude;
 }
