@@ -14,6 +14,7 @@ public class JwtResponse implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -8091879091924046844L;
+
     @NotNull(message = "JwtToken should not be null")
     @NotBlank(message = "JwtToken should not be blank")
     private final String jwtToken;
