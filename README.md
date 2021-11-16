@@ -29,3 +29,9 @@ Pontosítottuk az alkalmazás OpenAPI dokumentációját és summary-kkel láttu
 Megpróbáltuk megoldani, hogy a MongoDB jelszavunk ne legyen kint githubon ahol bárki megtalálhatja, de hosszas próbálkozás után sajnos nem jártunk sikerrel.
 Arra jutottunk, hogy a Jasypt toollal titkosítani lehet bármit, amit el akarunk rejteni mások elől, majd egy előre megadott kulcs segítségével visszafejteni az eredeti Stringet, a kulcsot meg lokálisan kell tárolni a biztonságosság érdekében.
 Azért hagytuk abba a próbálkozást, mert rájöttünk, hogy ha ki akarjuk tenni Herokura az appot, akkor ott nem fog működni ez, hiszen nem tudunk a Heroku szerverekre kulcsokat pakolni. (Meg egyébként sincs akkora veszélynek kitéve az alkalmazásunk hogy erre nagy szükség legyen)
+
+# 9. hét
+Ezen a héten a validációval foglalkoztunk. A modeljeinket megváltoztattuk úgy, hogy csak az általunk megadott formátumú és hosszú adatokat fogadják el, ellenkező esetben pedig hibát dobjanak.
+Ezen felül a controllerekben le kellett ellenőrizni, hogy adott objektumok amiket szerkeszteni vagy törölni akar egy felhasználó, létezik-e,
+ezen felül pedig azt, hogy ha létezik, akkor az a saját idja-e, vagy ha nem, akkor ADMIN jogosultságú-e.
+Ez után az OfferController accept, reject és delete függvényeit refaktoráltuk hogy ne legyen kódismétlés de mégis jól szétválaszthatóak legyenek a függvények.
