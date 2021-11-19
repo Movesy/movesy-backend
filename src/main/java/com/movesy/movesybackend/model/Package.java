@@ -56,7 +56,7 @@ public class Package {
     @Max(Integer.MAX_VALUE)
     private int weight;
 
-    @NotNull(message = "Size cannot be null")
+
     private Size size;
 
     @NotNull(message = "Status cannot be null")
