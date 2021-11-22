@@ -52,18 +52,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authenticate", "/register", "/diary")
                 .permitAll()
                 .antMatchers(
-                        "/user/edit/",
+                        "/user/edit/", "/package/create",
                         "/package/edit/", "/package/delete/", "/package/user/",
                         "/review/create", "/review/edit/", "/review/delete/",
                         "/offer/", "/offer/accept/", "/offer/reject/")
                 .hasAnyRole("ADMIN", "USER")
                 .antMatchers(
                         "/package/list", "/package/transporter/",
-                        "/offer/create/", "/offer/edit/")
+                        "/offer/create", "/offer/edit/")
                 .hasAnyRole("ADMIN", "TRANSPORTER")
                 .antMatchers(
                         "/package/", "/review/",
-                        "/review/transporter/")
+                        "/review/transporter/", "/user/list")
                 .hasAnyRole("ADMIN", "USER", "TRANSPORTER")
                 .anyRequest().hasRole("ADMIN")
                 .and()

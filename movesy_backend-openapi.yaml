@@ -28,7 +28,7 @@
       "200":
         description: "OK"
 ---
-/offer/create/:
+/offer/create:
   post:
     summary: "POST create an offer"
     operationId: "createOffer"

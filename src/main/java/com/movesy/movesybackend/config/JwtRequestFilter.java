@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.jsonwebtoken.security.SignatureException;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,6 +48,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 LogFactory.getLog(this.getClass()).error("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
                 LogFactory.getLog(this.getClass()).error("JWT Token has expired");
+            } catch (SignatureException e) {
+                LogFactory.getLog(this.getClass()).error("JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.");
             }
         } else {
             logger.warn("JWT Token does not begin with Bearer String");

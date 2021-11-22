@@ -35,7 +35,7 @@ public class OfferController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
-    @PostMapping("/create/")
+    @PostMapping("/create")
     public ResponseEntity<Offer> createOffer(@Valid @RequestBody Offer offer) {
         try {
             String token = JwtTokenUtil.getToken();

@@ -30,8 +30,6 @@ public class Package {
     @NotBlank(message = "UserID cannot be blank")
     private String userID;
 
-    @NotNull(message = "TransporterID cannot be null")
-    @NotBlank(message = "TransporterID cannot be blank")
     private String transporterID;
 
     @NotNull(message = "From location cannot be null")
@@ -46,7 +44,6 @@ public class Package {
     @NotNull(message = "Deadline cannot be null")
     private Date deadline;
 
-    @NotNull(message = "Price cannot be null")
     @Min(0)
     @Max(Integer.MAX_VALUE)
     private int price;
