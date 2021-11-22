@@ -28,6 +28,20 @@
       "200":
         description: "OK"
 ---
+/offer/accept/:
+  delete:
+    summary: "Accept an offer(Delete the remaining ones)"
+    operationId: "acceptOffer"
+    parameters:
+      - name: "id"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+    responses:
+      "200":
+        description: "OK"
+---
 /offer/create:
   post:
     summary: "POST create an offer"
@@ -54,6 +68,20 @@
   put:
     summary: "Edit an offer "
     operationId: "updateOffer"
+    responses:
+      "200":
+        description: "OK"
+---
+/offer/reject/:
+  delete:
+    summary: "Reject an offer"
+    operationId: "rejectOffer"
+    parameters:
+      - name: "id"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
     responses:
       "200":
         description: "OK"
