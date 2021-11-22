@@ -12,8 +12,10 @@ import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.InstanceNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +46,29 @@ public class OfferController {
             return new ResponseEntity<>(offer, HttpStatus.OK);
         } catch (Exception e) {
             LogFactory.getLog(this.getClass()).error("INTERNAL_SERVER_ERROR!");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/transfer")
+    public ResponseEntity<Offer> transferPackage(@RequestParam String offerID, @RequestParam String newTransporterID) {
+        try {
+            String token = JwtTokenUtil.getToken();
+            Offer offer = offerRepository.findOfferById(offerID);
+            if (offer == null)
+                throw new InstanceNotFoundException("There is no offer with this ID");
+            Optional<User> oldTransporter = userRepository.findById(offer.getTransporterID());
+            if (oldTransporter.isPresent()) {
+                User currentUser = jwtTokenUtil.getUserFromToken(token);
+                if (!oldTransporter.get().getId().equals(currentUser.getId()) && currentUser.getRole().equals(Role.ADMIN))
+                    throw new AuthorizationServiceException("You dont have permission to make changes");
+            }
+            offer.setTransporterID(newTransporterID);
+            offerRepository.save(offer);
+            return new ResponseEntity<>(offer, HttpStatus.OK);
+        } catch (Exception e) {
+            LogFactory.getLog(this.getClass()).error("INTERNAL_SERVER_ERROR!");
+            LogFactory.getLog(this.getClass()).error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
