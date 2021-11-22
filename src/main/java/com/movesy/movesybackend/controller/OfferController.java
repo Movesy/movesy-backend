@@ -1,10 +1,8 @@
 package com.movesy.movesybackend.controller;
 
 import com.movesy.movesybackend.config.JwtTokenUtil;
-import com.movesy.movesybackend.model.Offer;
+import com.movesy.movesybackend.model.*;
 import com.movesy.movesybackend.model.Package;
-import com.movesy.movesybackend.model.Role;
-import com.movesy.movesybackend.model.User;
 import com.movesy.movesybackend.repository.OfferRepository;
 import com.movesy.movesybackend.repository.PackageRepository;
 import com.movesy.movesybackend.repository.UserRepository;
@@ -57,6 +55,8 @@ public class OfferController {
             Offer offer = offerRepository.findOfferById(offerID);
             if (offer == null)
                 throw new InstanceNotFoundException("There is no offer with this ID");
+            if (!packageRepository.findPackageById(offer.getPackageID()).getStatus().equals(Status.SENT))
+                throw new Exception("It is too late now to transfer this offer to another transporter");
             Optional<User> oldTransporter = userRepository.findById(offer.getTransporterID());
             if (oldTransporter.isPresent()) {
                 User currentUser = jwtTokenUtil.getUserFromToken(token);
