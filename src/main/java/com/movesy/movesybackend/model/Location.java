@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Setter
@@ -21,4 +22,8 @@ public class Location {
     @Max(value = 90, message = "The value of latitude should be equal to or lesser than 90")
     @NotNull(message = "Latitude should not be null")
     double latitude;
+
+    @NotNull(message = "address should not be null")
+    @NotBlank(message = "address should not be blank")
+    String address;
 }
