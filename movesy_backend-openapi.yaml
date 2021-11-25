@@ -275,3 +275,94 @@
     responses:
       "200":
         description: "OK"
+
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        telephone:
+          type: string
+        size:
+          type: string
+        role:
+          type: string
+    Package:
+      type: object
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        transporterID:
+          type: string
+        from:
+          type: string
+        to:
+          type: string
+        creation date:
+          type: date
+        deadline:
+          type: date
+        price:
+          type: integer
+        weight:
+          type: integer
+        size:
+          type: string
+        status:
+          type: string
+    Review:
+      type: object
+      properties:
+        id:
+          type: string
+        transporterID:
+          type: string
+        packageID:
+          type: string
+        time:
+          type: date
+        rating:
+          type: integer
+        description:
+          type: string
+        CustomerUsername:
+          type: string
+    Offer:
+      type: object
+      properties:
+        id:
+          type: string
+        transporterID:
+          type: string
+        packageID:
+          type: string
+        price:
+          type: integer
+    Location:
+      type:
+      properties:
+    Size :
+      type:
+      properties:
+    Status :
+      type:
+      properties:
+    JwtResponse:
+      type:
+      properties:
+    JwtRequest:
+      type:
+      properties:
+    Role:
+      type:
+      properties:
