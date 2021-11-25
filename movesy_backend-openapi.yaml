@@ -6,6 +6,7 @@ info:
 servers:
   - url: "https://movesy.herokuapp.com"
 paths :
+
  /authenticate:
   post:
     summary: "authenticate an user"
@@ -19,6 +20,7 @@ paths :
               $ref: '#/components/schemas/JwtResponse'
     requestBody:
       $ref: '#/components/schemas/JwtRequest'
+
  /diary:
   get:
     summary: "GET diary"
@@ -26,6 +28,7 @@ paths :
     responses:
       "200":
         description: "OK"
+
  /offer/:
   get:
     summary: "GET an offer by PackageId"
@@ -47,6 +50,7 @@ paths :
                 $ref: '#/components/schemas/Offer'
       "404":
         description: "Not found"
+
  /offer/accept/:
   delete:
     summary: "Accept an offer(Delete the remaining ones)"
@@ -126,6 +130,7 @@ paths :
         description: "No Content"
       "500":
         description: "Internal Server Error"
+
  /offer/transfer:
   put:
     summary: "Transfer a package from a transporter to another"
@@ -150,6 +155,7 @@ paths :
               $ref: '#/components/schemas/Offer'
       "500":
         description: "Internal Server Error"
+
  /package/:
   get:
     summary: "GET a package by ID"
@@ -163,6 +169,12 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Package'
+      "404":
+        description: "Not Found"
 
  /package/create:
   post:
@@ -171,6 +183,14 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Package'
+      "500":
+        description: "Internal Server Error"
+    requestBody:
+      $ref: '#/components/schemas/Package'
 
  /package/delete/:
   delete:
@@ -185,6 +205,8 @@ paths :
     responses:
       "200":
         description: "OK"
+      "500":
+        description: "Internal Server Error"
 
  /package/edit/:
   put:
@@ -193,6 +215,14 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Package'
+      "404":
+        description: "Not Found"
+    requestBody:
+      $ref: '#/components/schemas/Package'
 
  /package/list:
   get:
@@ -201,6 +231,16 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Package'
+      "204":
+        description: "No Content"
+      "404":
+        description: "Not Found"
 
  /package/transporter/:
   get:
@@ -215,6 +255,16 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Package'
+      "204":
+        description: "No Content"
+      "404":
+        description: "Not Found"
 
  /package/user/:
   get:
@@ -229,6 +279,16 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Package'
+      "204":
+        description: "No Content"
+      "404":
+        description: "Not Found"
 
  /register:
   post:
@@ -237,7 +297,14 @@ paths :
     responses:
       "200":
         description: "OK"
-
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      "400":
+        description: "User with this username already exists"
+    requestBody:
+      $ref: '#/components/schemas/User'
  /review/:
   get:
     summary: "GET a review by packageId"
@@ -251,6 +318,14 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      "404":
+        description: "Not Found"
+      "204":
+        description: "No Content"
 
  /review/create:
   post:
@@ -259,6 +334,14 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      "500":
+        description: "Internal Server Error"
+    requestBody:
+      $ref: '#/components/schemas/Review'
 
  /review/delete/:
   delete:
@@ -273,6 +356,8 @@ paths :
     responses:
       "200":
         description: "OK"
+      "500":
+        description: "Internal Server Error"
 
  /review/edit/:
   put:
@@ -281,6 +366,14 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      "404":
+        description: "Not Found"
+    requestBody:
+      $ref: '#/components/schemas/Review'
 
  /review/transporter/:
   get:
@@ -295,6 +388,17 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Review'
+      "204":
+        description: "No Content"
+      "404":
+        description: "Not Found"
+
 
  /user/:
   get:
@@ -309,6 +413,12 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      "404":
+        description: "Not Found"
 
  /user/delete/:
   delete:
@@ -323,6 +433,8 @@ paths :
     responses:
       "200":
         description: "OK"
+      "500":
+        description: "Internal Server Error"
 
  /user/edit/:
   put:
@@ -331,6 +443,14 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      "404":
+        description: "Not Found"
+    requestBody:
+      $ref: '#/components/schemas/User'
 
  /user/list:
   get:
@@ -339,6 +459,16 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Package'
+      "204":
+        description: "No Content"
+      "404":
+        description: "No users available"
 components:
   schemas:
     User:
@@ -384,7 +514,7 @@ components:
         size:
           $ref: '#/components/schemas/Size'
         status:
-          $ref: '#/components/schemas/status'
+          $ref: '#/components/schemas/Status'
     Review:
       type: object
       properties:
