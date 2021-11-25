@@ -12,8 +12,13 @@ paths :
     operationId: "createAuthenticationToken"
     responses:
       "200":
-        description: "OK"
-
+        description: "A JwtResponse object"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JwtResponse'
+    requestBody:
+      $ref: '#/components/schemas/JwtRequest'
  /diary:
   get:
     summary: "GET diary"
@@ -21,7 +26,6 @@ paths :
     responses:
       "200":
         description: "OK"
-
  /offer/:
   get:
     summary: "GET an offer by PackageId"
@@ -35,7 +39,14 @@ paths :
     responses:
       "200":
         description: "OK"
-
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Offer'
+      "404":
+        description: "Not found"
  /offer/accept/:
   delete:
     summary: "Accept an offer(Delete the remaining ones)"
@@ -47,8 +58,10 @@ paths :
         schema:
           type: "string"
     responses:
-      "200":
-        description: "OK"
+      "204":
+        description: "No Content"
+      "500":
+        description: "Internal Server Error"
 
  /offer/create:
   post:
@@ -57,6 +70,14 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Offer'
+      "500":
+        description: "Internal Server Error"
+    requestBody:
+      $ref: '#/components/schemas/Offer'
 
  /offer/delete/:
   delete:
@@ -69,8 +90,10 @@ paths :
         schema:
           type: "string"
     responses:
-      "200":
-        description: "OK"
+      "201":
+        description: "No Content"
+      "500":
+        description: "Internal Server Error"
 
  /offer/edit/:
   put:
@@ -79,6 +102,14 @@ paths :
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Offer'
+      "404":
+        description: "Not Found"
+    requestBody:
+      $ref: '#/components/schemas/Offer'
 
  /offer/reject/:
   delete:
@@ -91,9 +122,34 @@ paths :
         schema:
           type: "string"
     responses:
+      "201":
+        description: "No Content"
+      "500":
+        description: "Internal Server Error"
+ /offer/transfer:
+  put:
+    summary: "Transfer a package from a transporter to another"
+    operationId: "transferPackage"
+    parameters:
+      - name: "offerID"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "newTransporterID"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+    responses:
       "200":
         description: "OK"
-
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Offer'
+      "500":
+        description: "Internal Server Error"
  /package/:
   get:
     summary: "GET a package by ID"
@@ -384,8 +440,6 @@ components:
     JwtResponse:
       type: object
       properties:
-        serialVersionUID:
-          type: number
         jwtToken:
           type: string
         user:
@@ -393,12 +447,10 @@ components:
     JwtRequest:
       type: object
       properties:
-        serialVersionUID:
-          type: number
         username:
           type: string
         password:
-          $ref: '#/components/schemas/User'
+          type: string
     Role:
       type: string
       enum:
