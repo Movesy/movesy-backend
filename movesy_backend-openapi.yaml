@@ -1,20 +1,28 @@
-/authenticate:
+openapi: "3.0.3"
+info:
+  title: "Movesy API"
+  description: "Movesy project API documentation"
+  version: "1.0.0"
+servers:
+  - url: "https://movesy.herokuapp.com"
+paths :
+ /authenticate:
   post:
     summary: "authenticate an user"
     operationId: "createAuthenticationToken"
     responses:
       "200":
         description: "OK"
----
-/diary:
+
+ /diary:
   get:
     summary: "GET diary"
     operationId: "diary"
     responses:
       "200":
         description: "OK"
----
-/offer/:
+
+ /offer/:
   get:
     summary: "GET an offer by PackageId"
     operationId: "getOffersByPackageID"
@@ -27,8 +35,8 @@
     responses:
       "200":
         description: "OK"
----
-/offer/accept/:
+
+ /offer/accept/:
   delete:
     summary: "Accept an offer(Delete the remaining ones)"
     operationId: "acceptOffer"
@@ -41,16 +49,16 @@
     responses:
       "200":
         description: "OK"
----
-/offer/create:
+
+ /offer/create:
   post:
     summary: "POST create an offer"
     operationId: "createOffer"
     responses:
       "200":
         description: "OK"
----
-/offer/delete/:
+
+ /offer/delete/:
   delete:
     summary: "DELETE an offer by ID"
     operationId: "deleteOffer"
@@ -63,16 +71,16 @@
     responses:
       "200":
         description: "OK"
----
-/offer/edit/:
+
+ /offer/edit/:
   put:
     summary: "Edit an offer "
     operationId: "updateOffer"
     responses:
       "200":
         description: "OK"
----
-/offer/reject/:
+
+ /offer/reject/:
   delete:
     summary: "Reject an offer"
     operationId: "rejectOffer"
@@ -85,8 +93,8 @@
     responses:
       "200":
         description: "OK"
----
-/package/:
+
+ /package/:
   get:
     summary: "GET a package by ID"
     operationId: "getPackageById"
@@ -99,16 +107,16 @@
     responses:
       "200":
         description: "OK"
----
-/package/create:
+
+ /package/create:
   post:
     summary: "Create a package"
     operationId: "createPackage"
     responses:
       "200":
         description: "OK"
----
-/package/delete/:
+
+ /package/delete/:
   delete:
     summary: "DELETE a package by ID "
     operationId: "deletePackage"
@@ -121,24 +129,24 @@
     responses:
       "200":
         description: "OK"
----
-/package/edit/:
+
+ /package/edit/:
   put:
     summary: "Edit a package"
     operationId: "updatePackage"
     responses:
       "200":
         description: "OK"
----
-/package/list:
+
+ /package/list:
   get:
     summary: "GET all package"
     operationId: "getAllPackages"
     responses:
       "200":
         description: "OK"
----
-/package/transporter/:
+
+ /package/transporter/:
   get:
     summary: "GET all package by transporter(Which belongs to him)"
     operationId: "getPackagesByTransporter"
@@ -151,8 +159,8 @@
     responses:
       "200":
         description: "OK"
----
-/package/user/:
+
+ /package/user/:
   get:
     summary: "GET all package by User(Which belongs to him)"
     operationId: "getPackagesByUser"
@@ -165,16 +173,16 @@
     responses:
       "200":
         description: "OK"
----
-/register:
+
+ /register:
   post:
     summary: "Register an user to the system"
     operationId: "saveUser"
     responses:
       "200":
         description: "OK"
----
-/review/:
+
+ /review/:
   get:
     summary: "GET a review by packageId"
     operationId: "getReviewByPackageId"
@@ -187,16 +195,16 @@
     responses:
       "200":
         description: "OK"
----
-/review/create:
+
+ /review/create:
   post:
     summary: "Create a review"
     operationId: "createReview"
     responses:
       "200":
         description: "OK"
----
-/review/delete/:
+
+ /review/delete/:
   delete:
     summary: "DELETE a review by Id"
     operationId: "deleteReview"
@@ -209,16 +217,16 @@
     responses:
       "200":
         description: "OK"
----
-/review/edit/:
+
+ /review/edit/:
   put:
     summary: "Edit a review by ID"
     operationId: "editReviewById"
     responses:
       "200":
         description: "OK"
----
-/review/transporter/:
+
+ /review/transporter/:
   get:
     summary: "Get all review by Transporter(Which belongs to him)"
     operationId: "getReviewsByTransporter"
@@ -231,8 +239,8 @@
     responses:
       "200":
         description: "OK"
----
-/user/:
+
+ /user/:
   get:
     summary: "GET an user by ID"
     operationId: "getUserById"
@@ -245,8 +253,8 @@
     responses:
       "200":
         description: "OK"
----
-/user/delete/:
+
+ /user/delete/:
   delete:
     summary: "DELETE an User"
     operationId: "deleteUser"
@@ -259,24 +267,23 @@
     responses:
       "200":
         description: "OK"
----
-/user/edit/:
+
+ /user/edit/:
   put:
     summary: "Edit a user"
     operationId: "updateUser"
     responses:
       "200":
         description: "OK"
----
-/user/list:
+
+ /user/list:
   get:
     summary: "GET all user"
     operationId: "getAllUsers"
     responses:
       "200":
         description: "OK"
-
-
+components:
   schemas:
     User:
       type: object
@@ -292,9 +299,9 @@
         telephone:
           type: string
         size:
-          type: string
+          $ref: '#/components/schemas/Size'
         role:
-          type: string
+          $ref: '#/components/schemas/Role'
     Package:
       type: object
       properties:
@@ -305,21 +312,23 @@
         transporterID:
           type: string
         from:
-          type: string
+          $ref: '#/components/schemas/Location'
         to:
-          type: string
+          $ref: '#/components/schemas/Location'
         creation date:
-          type: date
+          type: string
+          format : date
         deadline:
-          type: date
+          type: string
+          format : date
         price:
           type: integer
         weight:
           type: integer
         size:
-          type: string
+          $ref: '#/components/schemas/Size'
         status:
-          type: string
+          $ref: '#/components/schemas/status'
     Review:
       type: object
       properties:
@@ -330,7 +339,8 @@
         packageID:
           type: string
         time:
-          type: date
+          type: string
+          format: date
         rating:
           type: integer
         description:
@@ -349,20 +359,49 @@
         price:
           type: integer
     Location:
-      type:
+      type: object
       properties:
+        longitude:
+          type: number
+        latitude:
+          type: number
+        address:
+          type: string
     Size :
-      type:
-      properties:
+      type: string
+      enum:
+        - SMALL
+        - MEDIUM
+        - LARGE
+        - HUGE
     Status :
-      type:
-      properties:
+      type: string
+      enum:
+        - SENT
+        - IN_TRANSIT
+        - DELIVERED
+        - WAITING_FOR_REVIEW
     JwtResponse:
-      type:
+      type: object
       properties:
+        serialVersionUID:
+          type: number
+        jwtToken:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
     JwtRequest:
-      type:
+      type: object
       properties:
+        serialVersionUID:
+          type: number
+        username:
+          type: string
+        password:
+          $ref: '#/components/schemas/User'
     Role:
-      type:
-      properties:
+      type: string
+      enum:
+        - ADMIN
+        - USER
+        - TRANSPORTER
