@@ -54,7 +54,7 @@ public class PackageController {
     @GetMapping("/")
     public ResponseEntity<Package> getPackageById(@RequestParam String id) {
         Optional<Package> packageData = packageRepository.findById(id);
-        return packageData.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return packageData.map(pack -> new ResponseEntity<>(pack, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("/edit/")
