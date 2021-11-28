@@ -35,3 +35,6 @@ Ezen a héten a validációval foglalkoztunk. A modeljeinket megváltoztattuk ú
 Ezen felül a controllerekben le kellett ellenőrizni, hogy adott objektumok amiket szerkeszteni vagy törölni akar egy felhasználó, létezik-e,
 ezen felül pedig azt, hogy ha létezik, akkor az a saját idja-e, vagy ha nem, akkor ADMIN jogosultságú-e.
 Ez után az OfferController accept, reject és delete függvényeit refaktoráltuk hogy ne legyen kódismétlés de mégis jól szétválaszthatóak legyenek a függvények.
+
+# 10. hét
+Ezen a héten a sprint eltérítést valósítottuk meg és az OpenApi dokumentációt csináltuk újra mivel az ami idáig volt az egy generált dokumentáció volt(az IntelliJ által), és nem volt benne megtalálható ami egy OpenApi dokumentációban elvárható lenne.

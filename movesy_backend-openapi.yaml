@@ -1,20 +1,35 @@
-/authenticate:
+openapi: "3.0.3"
+info:
+  title: "Movesy API"
+  description: "Movesy project API documentation"
+  version: "1.0.0"
+servers:
+  - url: "https://movesy.herokuapp.com"
+paths :
+
+ /authenticate:
   post:
     summary: "authenticate an user"
     operationId: "createAuthenticationToken"
     responses:
       "200":
-        description: "OK"
----
-/diary:
+        description: "A JwtResponse object"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JwtResponse'
+    requestBody:
+      $ref: '#/components/schemas/JwtRequest'
+
+ /diary:
   get:
     summary: "GET diary"
     operationId: "diary"
     responses:
       "200":
         description: "OK"
----
-/offer/:
+
+ /offer/:
   get:
     summary: "GET an offer by PackageId"
     operationId: "getOffersByPackageID"
@@ -27,8 +42,16 @@
     responses:
       "200":
         description: "OK"
----
-/offer/accept/:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Offer'
+      "404":
+        description: "Not found"
+
+ /offer/accept/:
   delete:
     summary: "Accept an offer(Delete the remaining ones)"
     operationId: "acceptOffer"
@@ -39,18 +62,28 @@
         schema:
           type: "string"
     responses:
-      "200":
-        description: "OK"
----
-/offer/create:
+      "204":
+        description: "No Content"
+      "500":
+        description: "Internal Server Error"
+
+ /offer/create:
   post:
     summary: "POST create an offer"
     operationId: "createOffer"
     responses:
       "200":
         description: "OK"
----
-/offer/delete/:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Offer'
+      "500":
+        description: "Internal Server Error"
+    requestBody:
+      $ref: '#/components/schemas/Offer'
+
+ /offer/delete/:
   delete:
     summary: "DELETE an offer by ID"
     operationId: "deleteOffer"
@@ -61,18 +94,28 @@
         schema:
           type: "string"
     responses:
-      "200":
-        description: "OK"
----
-/offer/edit/:
+      "201":
+        description: "No Content"
+      "500":
+        description: "Internal Server Error"
+
+ /offer/edit/:
   put:
     summary: "Edit an offer "
     operationId: "updateOffer"
     responses:
       "200":
         description: "OK"
----
-/offer/reject/:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Offer'
+      "404":
+        description: "Not Found"
+    requestBody:
+      $ref: '#/components/schemas/Offer'
+
+ /offer/reject/:
   delete:
     summary: "Reject an offer"
     operationId: "rejectOffer"
@@ -83,10 +126,37 @@
         schema:
           type: "string"
     responses:
+      "201":
+        description: "No Content"
+      "500":
+        description: "Internal Server Error"
+
+ /offer/transfer:
+  put:
+    summary: "Transfer a package from a transporter to another"
+    operationId: "transferPackage"
+    parameters:
+      - name: "offerID"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "newTransporterID"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+    responses:
       "200":
         description: "OK"
----
-/package/:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Offer'
+      "500":
+        description: "Internal Server Error"
+
+ /package/:
   get:
     summary: "GET a package by ID"
     operationId: "getPackageById"
@@ -99,16 +169,30 @@
     responses:
       "200":
         description: "OK"
----
-/package/create:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Package'
+      "404":
+        description: "Not Found"
+
+ /package/create:
   post:
     summary: "Create a package"
     operationId: "createPackage"
     responses:
       "200":
         description: "OK"
----
-/package/delete/:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Package'
+      "500":
+        description: "Internal Server Error"
+    requestBody:
+      $ref: '#/components/schemas/Package'
+
+ /package/delete/:
   delete:
     summary: "DELETE a package by ID "
     operationId: "deletePackage"
@@ -121,24 +205,44 @@
     responses:
       "200":
         description: "OK"
----
-/package/edit/:
+      "500":
+        description: "Internal Server Error"
+
+ /package/edit/:
   put:
     summary: "Edit a package"
     operationId: "updatePackage"
     responses:
       "200":
         description: "OK"
----
-/package/list:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Package'
+      "404":
+        description: "Not Found"
+    requestBody:
+      $ref: '#/components/schemas/Package'
+
+ /package/list:
   get:
     summary: "GET all package"
     operationId: "getAllPackages"
     responses:
       "200":
         description: "OK"
----
-/package/transporter/:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Package'
+      "204":
+        description: "No Content"
+      "404":
+        description: "Not Found"
+
+ /package/transporter/:
   get:
     summary: "GET all package by transporter(Which belongs to him)"
     operationId: "getPackagesByTransporter"
@@ -151,8 +255,18 @@
     responses:
       "200":
         description: "OK"
----
-/package/user/:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Package'
+      "204":
+        description: "No Content"
+      "404":
+        description: "Not Found"
+
+ /package/user/:
   get:
     summary: "GET all package by User(Which belongs to him)"
     operationId: "getPackagesByUser"
@@ -165,16 +279,33 @@
     responses:
       "200":
         description: "OK"
----
-/register:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Package'
+      "204":
+        description: "No Content"
+      "404":
+        description: "Not Found"
+
+ /register:
   post:
     summary: "Register an user to the system"
     operationId: "saveUser"
     responses:
       "200":
         description: "OK"
----
-/review/:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      "400":
+        description: "User with this username already exists"
+    requestBody:
+      $ref: '#/components/schemas/User'
+ /review/:
   get:
     summary: "GET a review by packageId"
     operationId: "getReviewByPackageId"
@@ -187,16 +318,32 @@
     responses:
       "200":
         description: "OK"
----
-/review/create:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      "404":
+        description: "Not Found"
+      "204":
+        description: "No Content"
+
+ /review/create:
   post:
     summary: "Create a review"
     operationId: "createReview"
     responses:
       "200":
         description: "OK"
----
-/review/delete/:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      "500":
+        description: "Internal Server Error"
+    requestBody:
+      $ref: '#/components/schemas/Review'
+
+ /review/delete/:
   delete:
     summary: "DELETE a review by Id"
     operationId: "deleteReview"
@@ -209,16 +356,26 @@
     responses:
       "200":
         description: "OK"
----
-/review/edit/:
+      "500":
+        description: "Internal Server Error"
+
+ /review/edit/:
   put:
     summary: "Edit a review by ID"
     operationId: "editReviewById"
     responses:
       "200":
         description: "OK"
----
-/review/transporter/:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      "404":
+        description: "Not Found"
+    requestBody:
+      $ref: '#/components/schemas/Review'
+
+ /review/transporter/:
   get:
     summary: "Get all review by Transporter(Which belongs to him)"
     operationId: "getReviewsByTransporter"
@@ -231,8 +388,19 @@
     responses:
       "200":
         description: "OK"
----
-/user/:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Review'
+      "204":
+        description: "No Content"
+      "404":
+        description: "Not Found"
+
+
+ /user/:
   get:
     summary: "GET an user by ID"
     operationId: "getUserById"
@@ -245,8 +413,14 @@
     responses:
       "200":
         description: "OK"
----
-/user/delete/:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      "404":
+        description: "Not Found"
+
+ /user/delete/:
   delete:
     summary: "DELETE an User"
     operationId: "deleteUser"
@@ -259,19 +433,184 @@
     responses:
       "200":
         description: "OK"
----
-/user/edit/:
+      "500":
+        description: "Internal Server Error"
+
+ /user/edit/:
   put:
     summary: "Edit a user"
     operationId: "updateUser"
     responses:
       "200":
         description: "OK"
----
-/user/list:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      "404":
+        description: "Not Found"
+    requestBody:
+      $ref: '#/components/schemas/User'
+
+ /user/list:
   get:
     summary: "GET all user"
     operationId: "getAllUsers"
     responses:
       "200":
         description: "OK"
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Package'
+      "204":
+        description: "No Content"
+      "404":
+        description: "No users available"
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+          minLength: 4
+          maxLength: 20
+          pattern: '[a-zA-Z0-9]+'
+        password:
+          type: string
+          format: email
+          minLength: 5
+          maxLength: 60
+        email:
+          type: string
+        telephone:
+          type: string
+          pattern: '[+]?[0-9]{1,3}[0-9]{1,2}[0-9]{7}'
+        size:
+          $ref: '#/components/schemas/Size'
+        role:
+          $ref: '#/components/schemas/Role'
+
+    Package:
+      type: object
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        transporterID:
+          type: string
+        name:
+          type: string
+          format : "[a-zA-Z]+"
+          minLength: 5
+          maxLength: 30
+        from:
+          $ref: '#/components/schemas/Location'
+        to:
+          $ref: '#/components/schemas/Location'
+        creation date:
+          type: string
+          format : date
+        deadline:
+          type: string
+          format : date
+        price:
+          type: integer
+          minimum: 0
+        weight:
+          type: integer
+          minimum: 0
+        size:
+          $ref: '#/components/schemas/Size'
+        status:
+          $ref: '#/components/schemas/Status'
+    Review:
+      type: object
+      properties:
+        id:
+          type: string
+        transporterID:
+          type: string
+        packageID:
+          type: string
+        time:
+          type: string
+          format: date
+        rating:
+          type: integer
+          minimum: 0
+          maximum: 5
+        description:
+          type: string
+          maxLength: 5000
+          format: "[a-zA-Z0-9., "%/()'+!?;:@&<>$-]+"
+        CustomerUsername:
+          type: string
+          format: "[a-zA-Z0-9]+"
+          minLength: 4
+          maxLength: 20
+    Offer:
+      type: object
+      properties:
+        id:
+          type: string
+        transporterID:
+          type: string
+        packageID:
+          type: string
+        price:
+          type: integer
+          minimum: 0
+    Location:
+      type: object
+      properties:
+        longitude:
+          type: number
+          minimum: -180
+          maximum: 180
+        latitude:
+          type: number
+          minimum: -90
+          maximum: 90
+        address:
+          type: string
+    Size :
+      type: string
+      enum:
+        - SMALL
+        - MEDIUM
+        - LARGE
+        - HUGE
+    Status :
+      type: string
+      enum:
+        - SENT
+        - IN_TRANSIT
+        - DELIVERED
+        - WAITING_FOR_REVIEW
+    JwtResponse:
+      type: object
+      properties:
+        jwtToken:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+    JwtRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    Role:
+      type: string
+      enum:
+        - ADMIN
+        - USER
+        - TRANSPORTER
