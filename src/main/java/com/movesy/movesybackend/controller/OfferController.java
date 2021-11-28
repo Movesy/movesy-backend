@@ -115,6 +115,8 @@ public class OfferController {
                     }
                 }
                 _package.setTransporterID(offerData.get().getTransporterID());
+                _package.setPrice(offerData.get().getPrice());
+                _package.setStatus(Status.SENT);
                 packageRepository.save(_package);
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
