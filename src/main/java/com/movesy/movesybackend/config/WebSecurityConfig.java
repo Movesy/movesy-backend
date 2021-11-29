@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/offer/", "/offer/accept/", "/offer/reject/")
                 .hasAnyRole("ADMIN", "USER")
                 .antMatchers(
-                        "/package/list", "/package/transporter/",
+                        "/package/list","/package/edit/", "/package/transporter/",
                         "/offer/create", "/offer/transfer", "/offer/edit/")
                 .hasAnyRole("ADMIN", "TRANSPORTER")
                 .antMatchers(
