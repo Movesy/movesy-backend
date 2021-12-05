@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authenticate", "/register", "/diary")
                 .permitAll()
                 .antMatchers(
-                        "/user/edit/", "/package/create",
+                        "/package/create",
                         "/package/edit/", "/package/delete/", "/package/user/",
                         "/review/create", "/review/edit/", "/review/delete/",
                         "/offer/", "/offer/accept/", "/offer/reject/")
@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/offer/create", "/offer/transfer", "/offer/edit/")
                 .hasAnyRole("ADMIN", "TRANSPORTER")
                 .antMatchers(
-                        "/package/", "/review/",
+                        "/user/edit/", "/package/", "/review/",
                         "/review/transporter/", "/user/list")
                 .hasAnyRole("ADMIN", "USER", "TRANSPORTER")
                 .anyRequest().hasRole("ADMIN")
