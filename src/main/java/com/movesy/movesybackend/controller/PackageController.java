@@ -62,7 +62,10 @@ public class PackageController {
         Optional<Package> packageData = packageRepository.findById(editedPackage.getId());
         String token = JwtTokenUtil.getToken();
         User user = jwtTokenUtil.getUserFromToken(token);
-        if (packageData.isPresent() && (Objects.equals(user.getId(), editedPackage.getUserID()) || user.getRole() == Role.ADMIN)) {
+        if (packageData.isPresent()
+                && (user.getId().equals(editedPackage.getUserID())
+                || user.getId().equals(editedPackage.getTransporterID())
+                || user.getRole() == Role.ADMIN)) {
             return new ResponseEntity<>(packageRepository.save(editedPackage), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
