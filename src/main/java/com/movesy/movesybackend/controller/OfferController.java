@@ -110,9 +110,7 @@ public class OfferController {
                     throw new SecurityException("This user does not have the right to accept this offer!");
                 List<Offer> offers = offerRepository.findOfferByPackageID(offerData.get().getPackageID());
                 for (Offer offer : offers) {
-                    if (!Objects.equals(offer.getId(), id)) {
-                        offerRepository.deleteById(offer.getId());
-                    }
+                    offerRepository.deleteById(offer.getId());
                 }
                 _package.setTransporterID(offerData.get().getTransporterID());
                 _package.setPrice(offerData.get().getPrice());
