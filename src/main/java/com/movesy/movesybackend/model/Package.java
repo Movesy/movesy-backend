@@ -27,6 +27,7 @@ public class Package {
     private String name;
 
     @NotNull(message = "UserID cannot be null")
+    @NotBlank(message = "UserID cannot be blank")
     private String userID;
 
     private String transporterID;
