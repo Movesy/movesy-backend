@@ -444,8 +444,14 @@ paths :
 
  /user/edit/:
   put:
-    summary: "Edit a user"
+    summary: "Edit an user"
     operationId: "updateUser"
+    parameters:
+      - name: "id"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
     responses:
       "200":
         description: "OK"
