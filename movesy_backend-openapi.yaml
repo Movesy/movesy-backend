@@ -212,6 +212,12 @@ paths :
   put:
     summary: "Edit a package"
     operationId: "updatePackage"
+    parameters:
+      - name: "id"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
     responses:
       "200":
         description: "OK"
