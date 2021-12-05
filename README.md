@@ -38,3 +38,7 @@ Ez után az OfferController accept, reject és delete függvényeit refaktorált
 
 # 10. hét
 Ezen a héten a sprint eltérítést valósítottuk meg és az OpenApi dokumentációt csináltuk újra mivel az ami idáig volt az egy generált dokumentáció volt(az IntelliJ által), és nem volt benne megtalálható ami egy OpenApi dokumentációban elvárható lenne.
+
+# 11. hét
+Ezen a héten a frontendesek kéréseit valósítottuk meg, ezzel kijavítva az alkalmazásban maradt hibákat.
+Ez után megírtuk a dokumentációját az appnak, majd legeneráltuk hozzá a szükséges diagramokat.
