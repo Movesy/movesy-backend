@@ -61,7 +61,7 @@ public class ReviewController {
         String token = JwtTokenUtil.getToken();
         User user = jwtTokenUtil.getUserFromToken(token);
         if (reviewData.isPresent() && (Objects.equals(user.getUsername(), editedReview.getCustomerUsername()) || user.getRole() == Role.ADMIN)) {
-            return new ResponseEntity<>(reviewRepository.save(reviewData.get()), HttpStatus.OK);
+            return new ResponseEntity<>(reviewRepository.save(editedReview), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
