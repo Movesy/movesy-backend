@@ -7,6 +7,8 @@ import com.movesy.movesybackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +26,9 @@ public class UserController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
 
     @GetMapping("/list")
     public ResponseEntity<?> getAllUsers() {
@@ -50,6 +55,7 @@ public class UserController {
         Optional<User> userData = userRepository.findById(editedUser.getId());
         String token = JwtTokenUtil.getToken();
         User user = jwtTokenUtil.getUserFromToken(token);
+        editedUser.setPassword(bcryptEncoder.encode(editedUser.getPassword()));
         if (userData.isPresent() && (Objects.equals(user.getId(), editedUser.getId()) || user.getRole() == Role.ADMIN)) {
             return new ResponseEntity<>(userRepository.save(editedUser), HttpStatus.OK);
         } else {
